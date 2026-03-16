@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <script src="https://picture-search.skywork.ai/aippt/static/tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;900&display=swap');
+
+        body {
+            overflow: hidden;
+            font-family: 'Pretendard', sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 1280px;
+            height: 720px;
+        }
+
+        html {
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body class="bg-black text-white">
+    <!-- Main Slide Container -->
+    <div class="relative w-[1280px] h-[720px] flex flex-col justify-between p-20" style=" overflow: hidden;">
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img alt="Background" class="w-full h-full object-cover opacity-60"
+                src="https://picture-search.skywork.ai/aippt/image/sheet/7e9c144dab8f5bfcbff8be9b90e37c4a_zimage.jpg">
+            <!-- Overlay for better text readability -->
+            <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
+        </div>
+        <!-- Header Section: Title -->
+        <div class="relative z-10 mt-12">
+            <div class="w-20 h-2 bg-blue-500 mb-8"></div>
+            <h1 class="text-7xl font-black tracking-tight leading-tight">
+                C언어 프로그래밍의<br>
+                <span class="text-blue-400">기초와 핵심</span>
+            </h1>
+            <p class="text-2xl text-gray-300 mt-6 tracking-widest uppercase font-light">
+                Fundamentals and Core Principles of C Programming
+            </p>
+        </div>
+        <!-- Footer Section: Team Info -->
+        <div class="relative z-10 flex justify-between items-end">
+            <!-- Team Name -->
+            <div class="flex flex-col">
+                <span class="text-blue-400 text-sm font-bold tracking-widest mb-1">TEAM NAME</span>
+                <h2 class="text-4xl font-bold italic tracking-tighter">
+                    반대표와 아이들
+                </h2>
+            </div>
+            <!-- Members & Date -->
+            <div class="text-right">
+                <div class="flex flex-col gap-1 mb-6">
+                    <span class="text-gray-400 text-xs tracking-widest mb-1 uppercase">Team Members</span>
+                    <p class="text-xl font-medium">
+                        김도윤 <span class="text-gray-500 mx-1">|</span> 김준영 <span class="text-gray-500 mx-1">|</span> 이윤호
+                        <span class="text-gray-500 mx-1">|</span> 장원준
+                    </p>
+                </div>
+                <p class="text-lg text-gray-500 font-mono">
+                    2026. 03. 16
+                </p>
+            </div>
+        </div>
+        <!-- Decorative Element (Subtle side border) -->
+        <div class="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-blue-600 to-transparent"></div>
+    </div>
+
+    <script src="./src/concat.js"></script>
+</body>
+
+</html><!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>C Programming Presentation - Team Intro</title>
+    <script src="https://picture-search.skywork.ai/aippt/static/tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;800&display=swap');
+
+        body {
+            overflow: hidden;
+            font-family: 'Pretendard', sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 1280px;
+            min-height: 720px;
+
+            background-color: #f8fafc;
+        }
+
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            padding: 60px 80px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+
+        html {
+            overflow: hidden;
+        }
+    </style>
+    <style id="compress-style">
+        html,
+        body.compress-body {
+            margin: 0 !important;
+        }
+
+        body.compress-body {
+            --compress-ratio: 0.8126410835214447;
+            --compress-expanded-width: 1575.111111111111px;
+            --compress-original-height: 886px;
+            --compress-pt: 0px;
+            --compress-pr: 0px;
+            --compress-pb: 0px;
+            --compress-pl: 0px;
+            box-sizing: border-box !important;
+            height: var(--compress-original-height) !important;
+            width: var(--compress-expanded-width) !important;
+            padding: var(--compress-pt) var(--compress-pr) var(--compress-pb) var(--compress-pl) !important;
+            overflow: hidden !important;
+            transform: scale(var(--compress-ratio)) !important;
+            transform-origin: top left !important;
+            /* 字号放大 1/ratio，缩放后视觉与未压页一致 */
+            font-size: calc(100% / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-xs {
+            font-size: calc(0.75rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-sm {
+            font-size: calc(0.875rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-base {
+            font-size: calc(1rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-lg {
+            font-size: calc(1.125rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-xl {
+            font-size: calc(1.25rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-2xl {
+            font-size: calc(1.5rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-3xl {
+            font-size: calc(1.875rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-4xl {
+            font-size: calc(2.25rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-5xl {
+            font-size: calc(3rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-6xl {
+            font-size: calc(3.75rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-7xl {
+            font-size: calc(4.5rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-8xl {
+            font-size: calc(6rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-9xl {
+            font-size: calc(8rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .slide-container,
+        body.compress-body>div:first-child {
+            width: 1575.111111111111px !important;
+            height: 886px !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            box-sizing: border-box !important;
+        }
+    </style>
+</head>
+
+<body class="compress-body">
+    <div class="slide-container" style=" overflow: hidden;">
+        <!-- Header Section -->
+        <div class="mb-12 border-l-8 border-emerald-800 pl-6">
+            <h2 class="text-emerald-900 text-sm font-semibold tracking-widest uppercase mb-2">02. Our Team</h2>
+            <h1 class="text-5xl font-extrabold text-slate-900">팀 소개: <span class="text-emerald-800">반대표와 아이들</span></h1>
+            <p class="text-xl text-slate-500 mt-4">"든든한 반대표와 함께 C언어라는 쉽지 않은 여정을 완벽하게 컴파일합니다."</p>
+        </div>
+        <!-- Team Members Grid -->
+        <div class="grid grid-cols-4 gap-6 flex-grow">
+            <!-- Kim Do-yun -->
+            <div
+                class="bg-white rounded-2xl p-8 card-shadow flex flex-col items-center text-center border-t-4 border-emerald-700">
+                <div
+                    class="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mb-6 text-emerald-700 text-3xl">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 mb-1">김도윤</h3>
+                <span class="text-emerald-700 font-semibold text-sm mb-4 px-3 py-1 bg-emerald-50 rounded-full">팀장</span>
+                <div class="space-y-4 text-left w-full mt-4">
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase tracking-tighter">Strength</p>
+                        <p class="text-slate-700 font-medium">끈기와 집중력</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase tracking-tighter">C-Connection</p>
+                        <p class="text-slate-600 text-sm leading-relaxed">복잡한 C언어 개념도 포기하지 않고 끝까지 파고듭니다.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Kim Jun-young -->
+            <div
+                class="bg-white rounded-2xl p-8 card-shadow flex flex-col items-center text-center border-t-4 border-rose-700">
+                <div
+                    class="w-20 h-20 bg-rose-50 rounded-full flex items-center justify-center mb-6 text-rose-700 text-3xl">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 mb-1">김준영</h3>
+                <span class="text-rose-700 font-semibold text-sm mb-4 px-3 py-1 bg-rose-50 rounded-full">팀원</span>
+                <div class="space-y-4 text-left w-full mt-4">
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase tracking-tighter">Strength</p>
+                        <p class="text-slate-700 font-medium">강인한 체력 (운동)</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase tracking-tighter">C-Connection</p>
+                        <p class="text-slate-600 text-sm leading-relaxed">C언어 코딩도 에너제틱하고 효율적으로 처리합니다.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Lee Yun-ho -->
+            <div
+                class="bg-white rounded-2xl p-8 card-shadow flex flex-col items-center text-center border-t-4 border-amber-600">
+                <div
+                    class="w-20 h-20 bg-amber-50 rounded-full flex items-center justify-center mb-6 text-amber-600 text-3xl">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 mb-1">이윤호</h3>
+                <span class="text-amber-700 font-semibold text-sm mb-4 px-3 py-1 bg-amber-50 rounded-full">팀원</span>
+                <div class="space-y-4 text-left w-full mt-4">
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase tracking-tighter">Strength</p>
+                        <p class="text-slate-700 font-medium">철저한 자기관리</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase tracking-tighter">C-Connection</p>
+                        <p class="text-slate-600 text-sm leading-relaxed">체계적인 학습 계획으로 C언어 마스터를 목표합니다.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Jang Won-jun -->
+            <div
+                class="bg-white rounded-2xl p-8 card-shadow flex flex-col items-center text-center border-t-4 border-slate-800">
+                <div
+                    class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-6 text-slate-800 text-3xl">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 mb-1">장원준</h3>
+                <span class="text-slate-700 font-semibold text-sm mb-4 px-3 py-1 bg-slate-100 rounded-full">팀원</span>
+                <div class="space-y-4 text-left w-full mt-4">
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase tracking-tighter">Strength</p>
+                        <p class="text-slate-700 font-medium">뛰어난 소화력 (식성)</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase tracking-tighter">C-Connection</p>
+                        <p class="text-slate-600 text-sm leading-relaxed">C언어 지식을 스펀지처럼 흡수하고 잘 소화합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer Tagline -->
+        <div class="mt-10 flex justify-center">
+            <div class="bg-emerald-900 text-white px-8 py-3 rounded-full flex items-center gap-3">
+                <i class="fas fa-quote-left text-emerald-300"></i>
+                <span class="text-lg font-medium">각기 다른 강점이 모여 만드는 우리 팀의 완벽한 알고리즘</span>
+                <i class="fas fa-quote-right text-emerald-300"></i>
+            </div>
+        </div>
+    </div>
+
+    <script src="./src/concat.js"></script>
+</body>
+
+</html><!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>C Programming - History</title>
+    <script src="https://picture-search.skywork.ai/aippt/static/tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;800&display=swap');
+
+        body {
+            overflow: hidden;
+            font-family: 'Pretendard', sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 1280px;
+            min-height: 729px;
+
+            background-color: #f8fafc;
+        }
+
+        .slide-container {
+            width: 1280px;
+            min-height: 729px;
+            padding: 60px 80px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        html {
+            overflow: hidden;
+        }
+    </style>
+    <style id="compress-style">
+        html,
+        body.compress-body {
+            margin: 0 !important;
+        }
+
+        body.compress-body {
+            --compress-ratio: 0.7758620689655172;
+            --compress-expanded-width: 1649.7777777777778px;
+            --compress-original-height: 928px;
+            --compress-pt: 0px;
+            --compress-pr: 0px;
+            --compress-pb: 0px;
+            --compress-pl: 0px;
+            box-sizing: border-box !important;
+            height: var(--compress-original-height) !important;
+            width: var(--compress-expanded-width) !important;
+            padding: var(--compress-pt) var(--compress-pr) var(--compress-pb) var(--compress-pl) !important;
+            overflow: hidden !important;
+            transform: scale(var(--compress-ratio)) !important;
+            transform-origin: top left !important;
+        }
+
+        body.compress-body .title .text-xs,
+        body.compress-body .section-title .text-xs,
+        body.compress-body .subtitle .text-xs,
+        body.compress-body .title.text-xs,
+        body.compress-body .section-title.text-xs,
+        body.compress-body .subtitle.text-xs,
+        body.compress-body header .text-xs,
+        body.compress-body header.text-xs,
+        body.compress-body h1 .text-xs,
+        body.compress-body h1.text-xs,
+        body.compress-body *:has(> h1) .text-xs,
+        body.compress-body *:has(> h1).text-xs {
+            font-size: calc(0.75rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .title .text-sm,
+        body.compress-body .section-title .text-sm,
+        body.compress-body .subtitle .text-sm,
+        body.compress-body .title.text-sm,
+        body.compress-body .section-title.text-sm,
+        body.compress-body .subtitle.text-sm,
+        body.compress-body header .text-sm,
+        body.compress-body header.text-sm,
+        body.compress-body h1 .text-sm,
+        body.compress-body h1.text-sm,
+        body.compress-body *:has(> h1) .text-sm,
+        body.compress-body *:has(> h1).text-sm {
+            font-size: calc(0.875rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .title .text-base,
+        body.compress-body .section-title .text-base,
+        body.compress-body .subtitle .text-base,
+        body.compress-body .title.text-base,
+        body.compress-body .section-title.text-base,
+        body.compress-body .subtitle.text-base,
+        body.compress-body header .text-base,
+        body.compress-body header.text-base,
+        body.compress-body h1 .text-base,
+        body.compress-body h1.text-base,
+        body.compress-body *:has(> h1) .text-base,
+        body.compress-body *:has(> h1).text-base {
+            font-size: calc(1rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .title .text-lg,
+        body.compress-body .section-title .text-lg,
+        body.compress-body .subtitle .text-lg,
+        body.compress-body .title.text-lg,
+        body.compress-body .section-title.text-lg,
+        body.compress-body .subtitle.text-lg,
+        body.compress-body header .text-lg,
+        body.compress-body header.text-lg,
+        body.compress-body h1 .text-lg,
+        body.compress-body h1.text-lg,
+        body.compress-body *:has(> h1) .text-lg,
+        body.compress-body *:has(> h1).text-lg {
+            font-size: calc(1.125rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .title .text-xl,
+        body.compress-body .section-title .text-xl,
+        body.compress-body .subtitle .text-xl,
+        body.compress-body .title.text-xl,
+        body.compress-body .section-title.text-xl,
+        body.compress-body .subtitle.text-xl,
+        body.compress-body header .text-xl,
+        body.compress-body header.text-xl,
+        body.compress-body h1 .text-xl,
+        body.compress-body h1.text-xl,
+        body.compress-body *:has(> h1) .text-xl,
+        body.compress-body *:has(> h1).text-xl {
+            font-size: calc(1.25rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .title .text-2xl,
+        body.compress-body .section-title .text-2xl,
+        body.compress-body .subtitle .text-2xl,
+        body.compress-body .title.text-2xl,
+        body.compress-body .section-title.text-2xl,
+        body.compress-body .subtitle.text-2xl,
+        body.compress-body header .text-2xl,
+        body.compress-body header.text-2xl,
+        body.compress-body h1 .text-2xl,
+        body.compress-body h1.text-2xl,
+        body.compress-body *:has(> h1) .text-2xl,
+        body.compress-body *:has(> h1).text-2xl {
+            font-size: calc(1.5rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .title .text-3xl,
+        body.compress-body .section-title .text-3xl,
+        body.compress-body .subtitle .text-3xl,
+        body.compress-body .title.text-3xl,
+        body.compress-body .section-title.text-3xl,
+        body.compress-body .subtitle.text-3xl,
+        body.compress-body header .text-3xl,
+        body.compress-body header.text-3xl,
+        body.compress-body h1 .text-3xl,
+        body.compress-body h1.text-3xl,
+        body.compress-body *:has(> h1) .text-3xl,
+        body.compress-body *:has(> h1).text-3xl {
+            font-size: calc(1.875rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .title .text-4xl,
+        body.compress-body .section-title .text-4xl,
+        body.compress-body .subtitle .text-4xl,
+        body.compress-body .title.text-4xl,
+        body.compress-body .section-title.text-4xl,
+        body.compress-body .subtitle.text-4xl,
+        body.compress-body header .text-4xl,
+        body.compress-body header.text-4xl,
+        body.compress-body h1 .text-4xl,
+        body.compress-body h1.text-4xl,
+        body.compress-body *:has(> h1) .text-4xl,
+        body.compress-body *:has(> h1).text-4xl {
+            font-size: calc(2.25rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .title .text-5xl,
+        body.compress-body .section-title .text-5xl,
+        body.compress-body .subtitle .text-5xl,
+        body.compress-body .title.text-5xl,
+        body.compress-body .section-title.text-5xl,
+        body.compress-body .subtitle.text-5xl,
+        body.compress-body header .text-5xl,
+        body.compress-body header.text-5xl,
+        body.compress-body h1 .text-5xl,
+        body.compress-body h1.text-5xl,
+        body.compress-body *:has(> h1) .text-5xl,
+        body.compress-body *:has(> h1).text-5xl {
+            font-size: calc(3rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .title .text-6xl,
+        body.compress-body .section-title .text-6xl,
+        body.compress-body .subtitle .text-6xl,
+        body.compress-body .title.text-6xl,
+        body.compress-body .section-title.text-6xl,
+        body.compress-body .subtitle.text-6xl,
+        body.compress-body header .text-6xl,
+        body.compress-body header.text-6xl,
+        body.compress-body h1 .text-6xl,
+        body.compress-body h1.text-6xl,
+        body.compress-body *:has(> h1) .text-6xl,
+        body.compress-body *:has(> h1).text-6xl {
+            font-size: calc(3.75rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .title .text-7xl,
+        body.compress-body .section-title .text-7xl,
+        body.compress-body .subtitle .text-7xl,
+        body.compress-body .title.text-7xl,
+        body.compress-body .section-title.text-7xl,
+        body.compress-body .subtitle.text-7xl,
+        body.compress-body header .text-7xl,
+        body.compress-body header.text-7xl,
+        body.compress-body h1 .text-7xl,
+        body.compress-body h1.text-7xl,
+        body.compress-body *:has(> h1) .text-7xl,
+        body.compress-body *:has(> h1).text-7xl {
+            font-size: calc(4.5rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .title .text-8xl,
+        body.compress-body .section-title .text-8xl,
+        body.compress-body .subtitle .text-8xl,
+        body.compress-body .title.text-8xl,
+        body.compress-body .section-title.text-8xl,
+        body.compress-body .subtitle.text-8xl,
+        body.compress-body header .text-8xl,
+        body.compress-body header.text-8xl,
+        body.compress-body h1 .text-8xl,
+        body.compress-body h1.text-8xl,
+        body.compress-body *:has(> h1) .text-8xl,
+        body.compress-body *:has(> h1).text-8xl {
+            font-size: calc(6rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .title .text-9xl,
+        body.compress-body .section-title .text-9xl,
+        body.compress-body .subtitle .text-9xl,
+        body.compress-body .title.text-9xl,
+        body.compress-body .section-title.text-9xl,
+        body.compress-body .subtitle.text-9xl,
+        body.compress-body header .text-9xl,
+        body.compress-body header.text-9xl,
+        body.compress-body h1 .text-9xl,
+        body.compress-body h1.text-9xl,
+        body.compress-body *:has(> h1) .text-9xl,
+        body.compress-body *:has(> h1).text-9xl {
+            font-size: calc(8rem / var(--compress-ratio)) !important;
+        }
+
+
+        body.compress-body .slide-container,
+        body.compress-body>div:first-child {
+            width: 1649.7777777777778px !important;
+            height: 928px !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            box-sizing: border-box !important;
+        }
+    </style>
+</head>
+
+<body class="compress-body">
+    <div class="slide-container" style=" overflow: hidden;">
+        <!-- Header Section -->
+        <div class="mb-10 border-l-8 border-emerald-800 pl-6">
+            <h2 class="text-emerald-900 text-sm font-semibold tracking-widest uppercase mb-2">03. Background &amp;
+                History</h2>
+            <h1 class="text-5xl font-extrabold text-slate-900">C언어의 <span class="text-emerald-800">탄생 배경과 역사</span></h1>
+        </div>
+        <!-- Main Content: Split Layout -->
+        <div class="flex gap-12 flex-grow">
+            <!-- Left Side: History Content -->
+            <div class="w-7/12 flex flex-col justify-between py-4">
+                <div class="space-y-8">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                        <h3 class="text-xl font-bold text-emerald-800 mb-3 flex items-center gap-2">
+                            <i class="fas fa-microchip"></i> 탄생의 배경
+                        </h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            1970년대 초, 유닉스(Unix) 운영체제는 하드웨어 의존적인 <span class="text-slate-900 font-semibold">어셈블리어</span>로
+                            작성되었습니다. 이는 개발과 디버깅이 매우 어렵고, 다른 기종으로의 이식이 불가능하다는 치명적인 단점이 있었습니다.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                        <h3 class="text-xl font-bold text-emerald-800 mb-3 flex items-center gap-2">
+                            <i class="fas fa-code-branch"></i> B언어에서 C언어로
+                        </h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            데니스 리치는 기존의 B언어를 개선하여, 하드웨어를 직접 제어하면서도 높은 이식성을 갖춘 <span
+                                class="text-emerald-700 font-bold underline decoration-2 underline-offset-4">C언어</span>를
+                            1972년 벨 연구소에서 개발하게 됩니다.
+                        </p>
+                    </div>
+                </div>
+                <!-- Simple Timeline Diagram -->
+                <div class="mt-8">
+                    <div class="flex items-center w-full">
+                        <!-- 1960s -->
+                        <div class="flex-1 flex flex-col items-center">
+                            <div class="text-slate-400 font-mono text-sm mb-2">1960s</div>
+                            <div class="w-4 h-4 rounded-full bg-slate-300"></div>
+                            <div class="mt-2 font-bold text-slate-500 text-center">어셈블리어 / B언어</div>
+                        </div>
+                        <!-- Connector -->
+                        <div class="w-24 h-0.5 bg-slate-200"></div>
+                        <!-- 1972 -->
+                        <div class="flex-1 flex flex-col items-center">
+                            <div class="text-emerald-600 font-mono text-sm mb-2">1972</div>
+                            <div class="w-6 h-6 rounded-full bg-emerald-600 ring-4 ring-emerald-100"></div>
+                            <div class="mt-2 font-bold text-emerald-900 text-center">C언어 탄생</div>
+                        </div>
+                        <!-- Connector -->
+                        <div class="w-24 h-0.5 bg-slate-200"></div>
+                        <!-- Present -->
+                        <div class="flex-1 flex flex-col items-center">
+                            <div class="text-slate-400 font-mono text-sm mb-2">Present</div>
+                            <div class="w-4 h-4 rounded-full bg-slate-300"></div>
+                            <div class="mt-2 font-bold text-slate-500 text-center">현대 OS의 근간</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Side: Visual & Dennis Ritchie -->
+            <div class="w-5/12 flex flex-col items-center justify-center">
+                <div class="relative group">
+                    <!-- Dennis Ritchie Image -->
+                    <div class="rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+                        <img alt="Dennis Ritchie"
+                            class="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                            src="https://picture-search.skywork.ai/aippt/image/sheet/7b32b20eac64386e7c1c9101bc7ea61b.jpg">
+                    </div>
+                    <!-- Caption Overlay -->
+                    <div class="absolute -bottom-6 -right-6 bg-emerald-900 text-white p-6 rounded-lg shadow-xl">
+                        <p class="font-bold text-xl">데니스 리치</p>
+                        <p class="text-emerald-300 text-sm">Dennis Ritchie (1941-2011)</p>
+                        <p class="text-xs mt-2 text-slate-300 italic">"C언어의 창시자이자 유닉스의 공동 개발자"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./src/concat.js"></script>
+</body>
+
+</html><!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://picture-search.skywork.ai/aippt/static/tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;800&display=swap');
+
+        body {
+            overflow: hidden;
+            font-family: 'Pretendard', sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 1280px;
+            min-height: 720px;
+
+            background-color: #f8fafc;
+        }
+
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            padding: 50px 80px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        html {
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container" style=" overflow: hidden;">
+        <!-- Header -->
+        <div class="flex justify-between items-end mb-10">
+            <div>
+                <h2 class="text-emerald-800 text-sm font-bold tracking-widest uppercase mb-1">04. Key Characteristics
+                </h2>
+                <h1 class="text-5xl font-extrabold text-slate-900">C언어의 <span class="text-emerald-700">7가지 핵심 특징</span>
+                </h1>
+            </div>
+            <div class="text-right pb-1">
+                <p class="text-slate-500 font-medium italic">"시스템 프로그래밍의 강력한 도구"</p>
+            </div>
+        </div>
+        <!-- Features Grid -->
+        <div class="flex flex-col gap-6">
+            <!-- Row 1: 4 items -->
+            <div class="grid grid-cols-4 gap-6">
+                <div class="feature-card flex flex-col items-start">
+                    <div
+                        class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-lg flex items-center justify-center mb-4 text-xl">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">효율성</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">한정된 메모리에서도 최대한 빠른 속도를 낼 수 있도록 설계됨</p>
+                </div>
+                <div class="feature-card flex flex-col items-start">
+                    <div
+                        class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center mb-4 text-xl">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">이식성</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">다양한 하드웨어와 운영체제에서 동일하게 실행 가능한 표준화</p>
+                </div>
+                <div class="feature-card flex flex-col items-start">
+                    <div
+                        class="w-12 h-12 bg-amber-100 text-amber-700 rounded-lg flex items-center justify-center mb-4 text-xl">
+                        <i class="fas fa-list-ol"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">절차지향</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">위에서 아래로 순차적인 명령 처리로 직관적인 흐름 제어</p>
+                </div>
+                <div class="feature-card flex flex-col items-start">
+                    <div
+                        class="w-12 h-12 bg-rose-100 text-rose-700 rounded-lg flex items-center justify-center mb-4 text-xl">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">저수준 제어</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">메모리 주소와 바이트 단위 직접 제어로 시스템 개발에 최적</p>
+                </div>
+            </div>
+            <!-- Row 2: 3 items -->
+            <div class="grid grid-cols-3 gap-6 px-24">
+                <div class="feature-card flex flex-col items-start">
+                    <div
+                        class="w-12 h-12 bg-indigo-100 text-indigo-700 rounded-lg flex items-center justify-center mb-4 text-xl">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">강력함</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">다양한 자료형과 연산자를 제공하여 복잡한 작업도 간결하게 처리</p>
+                </div>
+                <div class="feature-card flex flex-col items-start border-emerald-200 bg-emerald-50/30">
+                    <div
+                        class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-lg flex items-center justify-center mb-4 text-xl">
+                        <i class="fas fa-puzzle-piece"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">유연성</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">임베디드부터 상용 데이터 처리까지 광범위한 활용 스펙트럼</p>
+                </div>
+                <div class="feature-card flex flex-col items-start">
+                    <div
+                        class="w-12 h-12 bg-slate-200 text-slate-700 rounded-lg flex items-center justify-center mb-4 text-xl">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">표준 라이브러리</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">문자열 처리, 메모리 할당 등 유용한 내장 함수로 개발 편의성 제공</p>
+                </div>
+            </div>
+        </div>
+        <!-- Summary Footer -->
+        <div class="mt-auto flex items-center gap-4 bg-slate-100 p-4 rounded-xl">
+            <div class="flex-shrink-0 bg-emerald-700 text-white px-3 py-1 rounded font-bold text-sm">SUMMARY</div>
+            <p class="text-slate-700 font-medium">C언어는 하드웨어와 소프트웨어의 가교 역할을 하며, 오늘날 모든 현대 언어의 기반이 되는 압도적인 효율성을 자랑합니다.</p>
+        </div>
+    </div>
+
+    <script src="./src/concat.js"></script>
+</body>
+
+</html><!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>C Programming Structure</title>
+    <script src="https://picture-search.skywork.ai/aippt/static/tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Pretendard:wght@400;600;800&display=swap');
+
+        body {
+            overflow: hidden;
+            font-family: 'Pretendard', sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 1280px;
+            min-height: 720px;
+
+            background-color: #f8fafc;
+        }
+
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+
+        html {
+            overflow: hidden;
+        }
+    </style>
+    <style id="compress-style">
+        html,
+        body.compress-body {
+            margin: 0 !important;
+        }
+
+        body.compress-body {
+            --compress-ratio: 0.7725321888412017;
+            --compress-expanded-width: 1656.888888888889px;
+            --compress-original-height: 932px;
+            --compress-pt: 0px;
+            --compress-pr: 0px;
+            --compress-pb: 0px;
+            --compress-pl: 0px;
+            box-sizing: border-box !important;
+            height: var(--compress-original-height) !important;
+            width: var(--compress-expanded-width) !important;
+            padding: var(--compress-pt) var(--compress-pr) var(--compress-pb) var(--compress-pl) !important;
+            overflow: hidden !important;
+            transform: scale(var(--compress-ratio)) !important;
+            transform-origin: top left !important;
+            /* 字号放大 1/ratio，缩放后视觉与未压页一致 */
+            font-size: calc(100% / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-xs {
+            font-size: calc(0.75rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-sm {
+            font-size: calc(0.875rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-base {
+            font-size: calc(1rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-lg {
+            font-size: calc(1.125rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-xl {
+            font-size: calc(1.25rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-2xl {
+            font-size: calc(1.5rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-3xl {
+            font-size: calc(1.875rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-4xl {
+            font-size: calc(2.25rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-5xl {
+            font-size: calc(3rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-6xl {
+            font-size: calc(3.75rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-7xl {
+            font-size: calc(4.5rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-8xl {
+            font-size: calc(6rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-9xl {
+            font-size: calc(8rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .slide-container,
+        body.compress-body>div:first-child {
+            width: 1656.888888888889px !important;
+            height: 932px !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            box-sizing: border-box !important;
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center compress-body">
+    <div class="w-[1280px] h-[720px] bg-slate-50 p-16 flex flex-col" style=" overflow: hidden;">
+        <!-- Header Section -->
+        <div class="mb-10 flex items-end justify-between border-b-2 border-slate-200 pb-6">
+            <div>
+                <h2 class="text-emerald-700 text-sm font-bold tracking-widest uppercase mb-1 italic">05. BASIC STRUCTURE
+                </h2>
+                <h1 class="text-5xl font-extrabold text-slate-900 tracking-tight">C언어 프로그램의 <span
+                        class="text-emerald-800">기본 구조</span></h1>
+            </div>
+            <div class="text-right text-slate-400 font-medium">
+                Standard C Program Template
+            </div>
+        </div>
+        <!-- Content Section: Split Layout -->
+        <div class="flex flex-row gap-12 flex-grow items-start">
+            <!-- Left: Code Snippet -->
+            <div class="w-1/2 flex flex-col h-full">
+                <div class="bg-slate-900 rounded-2xl p-8 shadow-2xl h-full flex flex-col border border-slate-800">
+                    <div class="flex gap-2 mb-6">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <div class="code-font text-lg leading-relaxed flex-grow">
+                        <p class="text-slate-500 mb-2">// "Hello, World!" 출력 예제</p>
+                        <p class="mb-2"><span class="text-pink-400">#include</span> <span
+                                class="text-emerald-400">&lt;stdio.h&gt;</span></p>
+                        <p class="mb-2"><span class="text-blue-400 italic">int</span> <span
+                                class="text-yellow-300">main</span>() {</p>
+                        <p class="ml-8 mb-2 text-white">
+                            <span class="text-yellow-300">printf</span>(<span class="text-emerald-400">"Hello,
+                                World!\n"</span>);
+                        </p>
+                        <p class="ml-8 mb-2 text-white">
+                            <span class="text-pink-400">return</span> <span class="text-orange-400">0</span>;
+                        </p>
+                        <p class="text-blue-400">}</p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-800 text-slate-500 text-sm italic">
+                        * C언어는 함수들의 집합으로 구성됩니다.
+                    </div>
+                </div>
+            </div>
+            <!-- Right: Explanations -->
+            <div class="w-1/2 flex flex-col gap-6">
+                <!-- Point 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm flex items-start gap-5 border-l-4 border-emerald-600">
+                    <div class="text-emerald-600 mt-1">
+                        <i class="fas fa-file-import text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-xl mb-1">#include &lt;stdio.h&gt;</h3>
+                        <p class="text-slate-600 leading-snug text-sm">표준 입출력 함수(printf 등)가 정의된 헤더 파일을 포함하여 기능을 확장합니다.
+                        </p>
+                    </div>
+                </div>
+                <!-- Point 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm flex items-start gap-5 border-l-4 border-emerald-600">
+                    <div class="text-emerald-600 mt-1 text-2xl">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-xl mb-1">int main()</h3>
+                        <p class="text-slate-600 leading-snug text-sm">프로그램이 실행될 때 가장 먼저 호출되는 시작점(Entry Point) 함수입니다.
+                        </p>
+                    </div>
+                </div>
+                <!-- Point 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm flex items-start gap-5 border-l-4 border-emerald-600">
+                    <div class="text-emerald-600 mt-1 text-2xl">
+                        <i class="fas fa-terminal"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-xl mb-1">printf() 함수</h3>
+                        <p class="text-slate-600 leading-snug text-sm">괄호 안의 내용을 화면에 출력하는 표준 출력 함수입니다. (\n은 줄바꿈)</p>
+                    </div>
+                </div>
+                <!-- Point 4 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm flex items-start gap-5 border-l-4 border-emerald-600">
+                    <div class="text-emerald-600 mt-1 text-2xl">
+                        <i class="fas fa-undo-alt"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-xl mb-1">return 0;</h3>
+                        <p class="text-slate-600 leading-snug text-sm">프로그램이 성공적으로 종료되었음을 운영체제에 알리고 함수를 종료합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bottom Tip -->
+        <div class="mt-8 bg-slate-200/50 py-3 px-6 rounded-lg self-start">
+            <p class="text-slate-600 text-sm font-medium">
+                <i class="fas fa-info-circle mr-2 text-slate-400"></i> 모든 C 프로그램은 반드시 하나 이상의 <strong>main</strong> 함수를
+                포함해야 실행 가능합니다.
+            </p>
+        </div>
+    </div>
+
+    <script src="./src/concat.js"></script>
+</body>
+
+</html><!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>C Programming - Core Grammar</title>
+    <script src="https://picture-search.skywork.ai/aippt/static/tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;800&display=swap');
+
+        body {
+            overflow: hidden;
+            font-family: 'Pretendard', sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 1280px;
+            min-height: 720px;
+
+            background-color: #ffffff;
+        }
+
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            padding: 60px 80px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        html {
+            overflow: hidden;
+        }
+    </style>
+    <style id="compress-style">
+        html,
+        body.compress-body {
+            margin: 0 !important;
+        }
+
+        body.compress-body {
+            --compress-ratio: 0.782608695652174;
+            --compress-expanded-width: 1635.5555555555554px;
+            --compress-original-height: 920px;
+            --compress-pt: 0px;
+            --compress-pr: 0px;
+            --compress-pb: 0px;
+            --compress-pl: 0px;
+            box-sizing: border-box !important;
+            height: var(--compress-original-height) !important;
+            width: var(--compress-expanded-width) !important;
+            padding: var(--compress-pt) var(--compress-pr) var(--compress-pb) var(--compress-pl) !important;
+            overflow: hidden !important;
+            transform: scale(var(--compress-ratio)) !important;
+            transform-origin: top left !important;
+            /* 字号放大 1/ratio，缩放后视觉与未压页一致 */
+            font-size: calc(100% / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-xs {
+            font-size: calc(0.75rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-sm {
+            font-size: calc(0.875rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-base {
+            font-size: calc(1rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-lg {
+            font-size: calc(1.125rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-xl {
+            font-size: calc(1.25rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-2xl {
+            font-size: calc(1.5rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-3xl {
+            font-size: calc(1.875rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-4xl {
+            font-size: calc(2.25rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-5xl {
+            font-size: calc(3rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-6xl {
+            font-size: calc(3.75rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-7xl {
+            font-size: calc(4.5rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-8xl {
+            font-size: calc(6rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-9xl {
+            font-size: calc(8rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .slide-container,
+        body.compress-body>div:first-child {
+            width: 1635.5555555555554px !important;
+            height: 920px !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            box-sizing: border-box !important;
+        }
+    </style>
+</head>
+
+<body class="compress-body">
+    <div class="slide-container" style=" overflow: hidden;">
+        <!-- Header Section -->
+        <div class="flex justify-between items-end mb-12">
+            <div class="border-l-8 border-emerald-800 pl-6">
+                <h2 class="text-emerald-800 text-sm font-semibold tracking-widest uppercase mb-2">06. Grammar Basics
+                </h2>
+                <h1 class="text-5xl font-extrabold text-slate-900">C언어의 <span class="text-emerald-800">핵심 문법 요소</span>
+                </h1>
+            </div>
+            <div class="text-right pb-1">
+                <p class="text-slate-400 font-medium">프로그램의 로직을 구성하는 필수 체계</p>
+            </div>
+        </div>
+        <!-- Content Grid -->
+        <div class="grid grid-cols-2 gap-8 flex-grow">
+            <!-- Category 1: Variables & Data Types -->
+            <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100 flex gap-6">
+                <div class="text-emerald-700 text-3xl">
+                    <i class="fas fa-box-open"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-3">변수와 자료형</h3>
+                    <ul class="space-y-2 text-slate-600">
+                        <li class="flex items-center gap-2 text-lg"><span
+                                class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>데이터를 저장하는 메모리 공간</li>
+                        <li class="flex items-center gap-2 text-lg"><span
+                                class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>정수(int), 실수(float), 문자(char)</li>
+                        <li class="flex items-center gap-2 text-lg"><span
+                                class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>자료형에 따른 메모리 크기 결정</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Category 2: Operators -->
+            <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100 flex gap-6">
+                <div class="text-emerald-700 text-3xl">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-3">연산자</h3>
+                    <ul class="space-y-2 text-slate-600">
+                        <li class="flex items-center gap-2 text-lg"><span
+                                class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>산술: +, -, *, /, %</li>
+                        <li class="flex items-center gap-2 text-lg"><span
+                                class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>비교/논리: ==, !=, &amp;&amp;, ||
+                        </li>
+                        <li class="flex items-center gap-2 text-lg"><span
+                                class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>대입: =, +=, -=</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Category 3: Control Statements -->
+            <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100 flex gap-6">
+                <div class="text-emerald-700 text-3xl">
+                    <i class="fas fa-code-branch"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-3">제어문 (조건/반복)</h3>
+                    <ul class="space-y-2 text-slate-600">
+                        <li class="flex items-center gap-2 text-lg"><span
+                                class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>조건문: if, else if, switch</li>
+                        <li class="flex items-center gap-2 text-lg"><span
+                                class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>반복문: for, while, do-while</li>
+                        <li class="flex items-center gap-2 text-lg"><span
+                                class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>프로그램의 흐름을 결정</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Category 4: Functions & Arrays -->
+            <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100 flex gap-6">
+                <div class="text-emerald-700 text-3xl">
+                    <i class="fas fa-cubes"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-3">함수와 배열</h3>
+                    <ul class="space-y-2 text-slate-600">
+                        <li class="flex items-center gap-2 text-lg"><span
+                                class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>함수: 코드의 재사용성 및 모듈화</li>
+                        <li class="flex items-center gap-2 text-lg"><span
+                                class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>배열: 동일한 자료형의 연속적 집합</li>
+                        <li class="flex items-center gap-2 text-lg"><span
+                                class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>포인터: 메모리 주소 직접 제어</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Tip Box -->
+        <div class="mt-8 bg-emerald-900 text-white rounded-xl p-4 flex items-center gap-4">
+            <div class="bg-emerald-700 w-10 h-10 rounded-lg flex items-center justify-center">
+                <i class="fas fa-lightbulb"></i>
+            </div>
+            <p class="text-lg">
+                <span class="font-bold">Key Point:</span> C언어는 <span class="text-amber-400 font-bold underline">절차지향
+                    언어</span>로서, 위에서 아래로 순차적으로 명령을 처리하는 흐름을 이해하는 것이 가장 중요합니다.
+            </p>
+        </div>
+    </div>
+
+    <script src="./src/concat.js"></script>
+</body>
+
+</html><!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>C Programming - Modern Applications</title>
+    <script src="https://picture-search.skywork.ai/aippt/static/tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;800&display=swap');
+
+        body {
+            overflow: hidden;
+            font-family: 'Pretendard', sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 1280px;
+            min-height: 720px;
+
+            background-color: #f8fafc;
+        }
+
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            padding: 60px 80px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-card {
+            transition: transform 0.2s ease-in-out;
+            border-left: 4px solid #065f46;
+            /* Emerald 800 */
+        }
+
+        html {
+            overflow: hidden;
+        }
+    </style>
+    <style id="compress-style">
+        html,
+        body.compress-body {
+            margin: 0 !important;
+        }
+
+        body.compress-body {
+            --compress-ratio: 0.8333333333333334;
+            --compress-expanded-width: 1536.0px;
+            --compress-original-height: 864px;
+            --compress-pt: 0px;
+            --compress-pr: 0px;
+            --compress-pb: 0px;
+            --compress-pl: 0px;
+            box-sizing: border-box !important;
+            height: var(--compress-original-height) !important;
+            width: var(--compress-expanded-width) !important;
+            padding: var(--compress-pt) var(--compress-pr) var(--compress-pb) var(--compress-pl) !important;
+            overflow: hidden !important;
+            transform: scale(var(--compress-ratio)) !important;
+            transform-origin: top left !important;
+            /* 字号放大 1/ratio，缩放后视觉与未压页一致 */
+            font-size: calc(100% / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-xs {
+            font-size: calc(0.75rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-sm {
+            font-size: calc(0.875rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-base {
+            font-size: calc(1rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-lg {
+            font-size: calc(1.125rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-xl {
+            font-size: calc(1.25rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-2xl {
+            font-size: calc(1.5rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-3xl {
+            font-size: calc(1.875rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-4xl {
+            font-size: calc(2.25rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-5xl {
+            font-size: calc(3rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-6xl {
+            font-size: calc(3.75rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-7xl {
+            font-size: calc(4.5rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-8xl {
+            font-size: calc(6rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-9xl {
+            font-size: calc(8rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .slide-container,
+        body.compress-body>div:first-child {
+            width: 1536.0px !important;
+            height: 864px !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            box-sizing: border-box !important;
+        }
+    </style>
+</head>
+
+<body class="compress-body">
+    <div class="slide-container" style=" overflow: hidden;">
+        <!-- Header Section -->
+        <div class="mb-12 border-b-2 border-slate-200 pb-6">
+            <h2 class="text-emerald-800 text-sm font-bold tracking-widest uppercase mb-2">07. Modern Applications</h2>
+            <h1 class="text-5xl font-extrabold text-slate-900 tracking-tight">현대 IT 산업에서의 <span
+                    class="text-emerald-800">C언어 활용</span></h1>
+            <p class="text-xl text-slate-500 mt-4 font-medium">C언어는 50년이 지난 지금도 시스템의 핵심 심장부에서 동작하고 있습니다.</p>
+        </div>
+        <!-- Applications Grid -->
+        <div class="grid grid-cols-3 gap-6 mb-6">
+            <!-- Operating Systems -->
+            <div class="bg-white p-6 rounded-xl shadow-sm app-card">
+                <div class="flex items-center gap-4 mb-4">
+                    <div
+                        class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-800 text-xl">
+                        <i class="fas fa-terminal"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800">운영체제 커널 개발</h3>
+                </div>
+                <p class="text-slate-600 leading-relaxed text-sm">
+                    Windows, Linux, macOS 커널의 대부분이 C언어로 작성되었습니다. 하드웨어 직접 제어와 높은 효율성이 필수적이기 때문입니다.
+                </p>
+            </div>
+            <!-- Embedded Systems -->
+            <div class="bg-white p-6 rounded-xl shadow-sm app-card">
+                <div class="flex items-center gap-4 mb-4">
+                    <div
+                        class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-800 text-xl">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800">임베디드 시스템</h3>
+                </div>
+                <p class="text-slate-600 leading-relaxed text-sm">
+                    IoT 기기, 가전제품, 자동차 제어 등 제한된 자원 환경에서 메모리와 CPU 리소스를 가장 효율적으로 활용합니다.
+                </p>
+            </div>
+            <!-- Game Engines -->
+            <div class="bg-white p-6 rounded-xl shadow-sm app-card">
+                <div class="flex items-center gap-4 mb-4">
+                    <div
+                        class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-800 text-xl">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800">고성능 게임 엔진</h3>
+                </div>
+                <p class="text-slate-600 leading-relaxed text-sm">
+                    Unity, Unreal Engine의 핵심 로직은 최적화된 성능과 빠른 실행 속도를 위해 C/C++로 구현되어 있습니다.
+                </p>
+            </div>
+        </div>
+        <div class="grid grid-cols-2 gap-6">
+            <!-- Databases -->
+            <div class="bg-white p-6 rounded-xl shadow-sm app-card">
+                <div class="flex items-center gap-4 mb-4">
+                    <div
+                        class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-800 text-xl">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800">데이터베이스 시스템</h3>
+                </div>
+                <p class="text-slate-600 leading-relaxed text-sm">
+                    MySQL, Oracle 등 대량의 데이터를 효율적으로 처리해야 하는 DBMS 개발에 C언어의 강력한 성능이 필수적입니다.
+                </p>
+            </div>
+            <!-- Device Drivers -->
+            <div class="bg-white p-6 rounded-xl shadow-sm app-card">
+                <div class="flex items-center gap-4 mb-4">
+                    <div
+                        class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-800 text-xl">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800">장치 드라이버</h3>
+                </div>
+                <p class="text-slate-600 leading-relaxed text-sm">
+                    하드웨어와 운영체제 간의 통신을 담당하며, 하드웨어에 가장 밀접하게 접근하여 제어할 수 있는 최적의 언어입니다.
+                </p>
+            </div>
+        </div>
+        <!-- Bottom Highlight -->
+        <div class="mt-auto bg-slate-900 text-white p-5 rounded-2xl flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+                <span class="text-lg font-medium">"새로운 언어들이 등장해도 C언어의 대체 불가능한 영역은 견고합니다."</span>
+            </div>
+            <div class="text-slate-400 text-sm italic">
+                #SystemProgramming #HighPerformance #CoreTech
+            </div>
+        </div>
+    </div>
+
+    <script src="./src/concat.js"></script>
+</body>
+
+</html><!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://picture-search.skywork.ai/aippt/static/tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;800&display=swap');
+
+        body {
+            overflow: hidden;
+            font-family: 'Pretendard', sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 1280px;
+            min-height: 720px;
+
+            background-color: #ffffff;
+        }
+
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            padding: 50px 70px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pro-card {
+            background-color: #ecfdf5;
+            border-left: 6px solid #059669;
+        }
+
+        .con-card {
+            background-color: #fff1f2;
+            border-left: 6px solid #e11d48;
+        }
+
+        html {
+            overflow: hidden;
+        }
+    </style>
+    <style id="compress-style">
+        html,
+        body.compress-body {
+            margin: 0 !important;
+        }
+
+        body.compress-body {
+            --compress-ratio: 0.8551068883610451;
+            --compress-expanded-width: 1496.888888888889px;
+            --compress-original-height: 842px;
+            --compress-pt: 0px;
+            --compress-pr: 0px;
+            --compress-pb: 0px;
+            --compress-pl: 0px;
+            box-sizing: border-box !important;
+            height: var(--compress-original-height) !important;
+            width: var(--compress-expanded-width) !important;
+            padding: var(--compress-pt) var(--compress-pr) var(--compress-pb) var(--compress-pl) !important;
+            overflow: hidden !important;
+            transform: scale(var(--compress-ratio)) !important;
+            transform-origin: top left !important;
+            /* 字号放大 1/ratio，缩放后视觉与未压页一致 */
+            font-size: calc(100% / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-xs {
+            font-size: calc(0.75rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-sm {
+            font-size: calc(0.875rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-base {
+            font-size: calc(1rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-lg {
+            font-size: calc(1.125rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-xl {
+            font-size: calc(1.25rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-2xl {
+            font-size: calc(1.5rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-3xl {
+            font-size: calc(1.875rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-4xl {
+            font-size: calc(2.25rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-5xl {
+            font-size: calc(3rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-6xl {
+            font-size: calc(3.75rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-7xl {
+            font-size: calc(4.5rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-8xl {
+            font-size: calc(6rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-9xl {
+            font-size: calc(8rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .slide-container,
+        body.compress-body>div:first-child {
+            width: 1496.888888888889px !important;
+            height: 842px !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            box-sizing: border-box !important;
+        }
+    </style>
+</head>
+
+<body class="compress-body">
+    <div class="slide-container" style=" overflow: hidden;">
+        <!-- Header -->
+        <div class="mb-10">
+            <h2 class="text-slate-400 text-sm font-bold tracking-[0.2em] uppercase mb-2">Analysis</h2>
+            <h1 class="text-5xl font-extrabold text-slate-900">C언어의 <span class="text-blue-600">장점과 단점</span> 분석</h1>
+            <div class="w-24 h-1.5 bg-blue-600 mt-4"></div>
+        </div>
+        <!-- Content Grid -->
+        <div class="grid grid-cols-2 gap-10 flex-grow">
+            <!-- Pros Section -->
+            <div class="flex flex-col gap-4">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-600 flex items-center justify-center text-white">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-emerald-900 uppercase tracking-tight">Advantages</h3>
+                </div>
+                <div class="pro-card p-5 rounded-r-xl">
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-bolt text-emerald-600 mt-1 text-xl"></i>
+                        <div>
+                            <h4 class="font-bold text-emerald-900 text-lg">빠른 실행 속도</h4>
+                            <p class="text-emerald-800/80 text-sm leading-relaxed">어셈블리어를 대체하기 위해 설계되어 최상의 퍼포먼스를 제공합니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="pro-card p-5 rounded-r-xl">
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-microchip text-emerald-600 mt-1 text-xl"></i>
+                        <div>
+                            <h4 class="font-bold text-emerald-900 text-lg">하드웨어 직접 제어</h4>
+                            <p class="text-emerald-800/80 text-sm leading-relaxed">메모리 주소와 바이트 단위 제어로 시스템 프로그래밍에 최적화되어
+                                있습니다.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="pro-card p-5 rounded-r-xl">
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-globe text-emerald-600 mt-1 text-xl"></i>
+                        <div>
+                            <h4 class="font-bold text-emerald-900 text-lg">높은 이식성 및 확장성</h4>
+                            <p class="text-emerald-800/80 text-sm leading-relaxed">표준화된 문법 덕분에 다양한 기기와 플랫폼에서 원활하게 실행됩니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Cons Section -->
+            <div class="flex flex-col gap-4">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 rounded-lg bg-rose-600 flex items-center justify-center text-white">
+                        <i class="fas fa-minus"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-rose-900 uppercase tracking-tight">Disadvantages</h3>
+                </div>
+                <div class="con-card p-5 rounded-r-xl">
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-bug text-rose-600 mt-1 text-xl"></i>
+                        <div>
+                            <h4 class="font-bold text-rose-900 text-lg">잦은 코드상의 에러</h4>
+                            <p class="text-rose-800/80 text-sm leading-relaxed">높은 유연성으로 인해 개발자의 사소한 실수가 치명적인 오류로 이어질 수
+                                있습니다.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="con-card p-5 rounded-r-xl">
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-shield-alt text-rose-600 mt-1 text-xl"></i>
+                        <div>
+                            <h4 class="font-bold text-rose-900 text-lg">안전성 부족 (메모리 관리)</h4>
+                            <p class="text-rose-800/80 text-sm leading-relaxed">메모리를 수동으로 관리해야 하므로 메모리 누수 등의 보안 취약점이
+                                발생하기 쉽습니다.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="con-card p-5 rounded-r-xl">
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-hourglass-half text-rose-600 mt-1 text-xl"></i>
+                        <div>
+                            <h4 class="font-bold text-rose-900 text-lg">상대적으로 낮은 생산성</h4>
+                            <p class="text-rose-800/80 text-sm leading-relaxed">고수준 언어에 비해 구현 속도가 느리며 유지보수가 까다로울 수 있습니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bottom Summary -->
+        <div class="mt-8 bg-slate-100 p-4 rounded-xl flex items-center justify-between border border-slate-200">
+            <p class="text-slate-600 font-medium">
+                <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                C언어는 <span class="text-emerald-700 font-bold">성능과 제어권</span>을 얻는 대신, <span
+                    class="text-rose-700 font-bold">개발의 난이도와 안전성</span>을 개발자가 책임지는 언어입니다.
+            </p>
+        </div>
+    </div>
+
+    <script src="./src/concat.js"></script>
+</body>
+
+</html><!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>C Programming Presentation - Closing &amp; QA</title>
+    <script src="https://picture-search.skywork.ai/aippt/static/tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;800&display=swap');
+
+        body {
+            overflow: hidden;
+            font-family: 'Pretendard', sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 1280px;
+            min-height: 720px;
+
+            background-color: #f8fafc;
+        }
+
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            padding: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
+        }
+
+        html {
+            overflow: hidden;
+        }
+    </style>
+    <style id="compress-style">
+        html,
+        body.compress-body {
+            margin: 0 !important;
+        }
+
+        body.compress-body {
+            --compress-ratio: 0.7317073170731707;
+            --compress-expanded-width: 1749.3333333333335px;
+            --compress-original-height: 984px;
+            --compress-pt: 0px;
+            --compress-pr: 0px;
+            --compress-pb: 0px;
+            --compress-pl: 0px;
+            box-sizing: border-box !important;
+            height: var(--compress-original-height) !important;
+            width: var(--compress-expanded-width) !important;
+            padding: var(--compress-pt) var(--compress-pr) var(--compress-pb) var(--compress-pl) !important;
+            overflow: hidden !important;
+            transform: scale(var(--compress-ratio)) !important;
+            transform-origin: top left !important;
+            /* 字号放大 1/ratio，缩放后视觉与未压页一致 */
+            font-size: calc(100% / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-xs {
+            font-size: calc(0.75rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-sm {
+            font-size: calc(0.875rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-base {
+            font-size: calc(1rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-lg {
+            font-size: calc(1.125rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-xl {
+            font-size: calc(1.25rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-2xl {
+            font-size: calc(1.5rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-3xl {
+            font-size: calc(1.875rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-4xl {
+            font-size: calc(2.25rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-5xl {
+            font-size: calc(3rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-6xl {
+            font-size: calc(3.75rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-7xl {
+            font-size: calc(4.5rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-8xl {
+            font-size: calc(6rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-9xl {
+            font-size: calc(8rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .slide-container,
+        body.compress-body>div:first-child {
+            width: 1749.3333333333335px !important;
+            height: 984px !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            box-sizing: border-box !important;
+        }
+    </style>
+</head>
+
+<body class="compress-body">
+    <div class="slide-container" style=" overflow: hidden;">
+        <!-- Header Title -->
+        <div class="text-center mb-16">
+            <h1 class="text-6xl font-black text-slate-900 mb-4 tracking-tight">발표 마무리 및 질의응답</h1>
+            <div class="flex justify-center items-center gap-4">
+                <div class="h-1 w-12 bg-emerald-700"></div>
+                <p class="text-emerald-800 text-xl font-semibold tracking-widest uppercase">Closing &amp; Questions</p>
+                <div class="h-1 w-12 bg-emerald-700"></div>
+            </div>
+        </div>
+        <!-- Summary Section -->
+        <div class="summary-card w-full max-w-4xl p-12 mb-16 text-center border-b-8 border-emerald-800">
+            <div class="flex justify-center mb-6 text-emerald-700 text-4xl">
+                <i class="fas fa-terminal"></i>
+            </div>
+            <p class="text-3xl font-bold text-slate-800 leading-snug">
+                "C언어는 컴퓨터 과학의 근간을 이루며,<br>
+                오늘날 다양한 IT 분야에서 <span class="text-emerald-700">핵심적인 역할</span>을 수행합니다."
+            </p>
+            <div class="mt-8 pt-8 border-t border-slate-100 flex justify-center gap-12">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-check-circle text-emerald-600"></i>
+                    <span class="text-slate-600 font-medium">강력한 성능</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-check-circle text-emerald-600"></i>
+                    <span class="text-slate-600 font-medium">높은 이식성</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-check-circle text-emerald-600"></i>
+                    <span class="text-slate-600 font-medium">시스템 제어</span>
+                </div>
+            </div>
+        </div>
+        <!-- Q&A and Thank You -->
+        <div class="w-full flex justify-between items-center max-w-4xl px-4">
+            <div class="flex items-center gap-8">
+                <div class="w-24 h-24 bg-slate-900 text-white rounded-full flex items-center justify-center text-4xl">
+                    <i class="fas fa-question"></i>
+                </div>
+                <div>
+                    <h3 class="text-4xl font-black text-slate-900 italic">ANY QUESTIONS?</h3>
+                    <p class="text-slate-500 text-lg">내용이나 팀 <span class="font-bold text-emerald-800">'반대표와 아이들'</span>에
+                        대해 궁금한 점을 말씀해주세요.</p>
+                </div>
+            </div>
+            <div class="text-right">
+                <p class="text-2xl font-bold text-slate-800 mb-1">경청해 주셔서 감사합니다.</p>
+                <div class="flex justify-end gap-2 text-emerald-700 font-bold italic tracking-tighter">
+                    <span>김도윤</span>
+                    <span>김준영</span>
+                    <span>이윤호</span>
+                    <span>장원준</span>
+                </div>
+            </div>
+        </div>
+        <!-- Subtle Background Deco (Text only) -->
+        <div class="absolute bottom-0 right-0 p-8 opacity-5">
+            <span class="text-9xl font-black tracking-tighter select-none">THANK YOU</span>
+        </div>
+    </div>
+
+    <script src="./src/concat.js"></script>
+</body>
+
+</html>
