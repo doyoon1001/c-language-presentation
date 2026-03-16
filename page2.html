@@ -16,126 +16,26 @@
             margin: 0;
             padding: 0;
             width: 100vw;
-            min-height: 100vh;
-
+            height: 100vh;
             background-color: #f8fafc;
-        }
-
-        .slide-container {
-            width: 1280px;
-            min-height: 720px;
-            padding: 60px 80px;
-            display: flex;
-            flex-direction: column;
         }
 
         .card-shadow {
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
         }
-
-        html {
-            overflow: hidden;
-        }
-    </style>
-    <style id="compress-style">
-        html,
-        body.compress-body {
-            margin: 0 !important;
-        }
-
-        body.compress-body {
-            --compress-ratio: 0.8126410835214447;
-            --compress-expanded-width: 1575.111111111111px;
-            --compress-original-height: 886px;
-            --compress-pt: 0px;
-            --compress-pr: 0px;
-            --compress-pb: 0px;
-            --compress-pl: 0px;
-            box-sizing: border-box !important;
-            height: var(--compress-original-height) !important;
-            width: var(--compress-expanded-width) !important;
-            padding: var(--compress-pt) var(--compress-pr) var(--compress-pb) var(--compress-pl) !important;
-            overflow: hidden !important;
-            transform: scale(var(--compress-ratio)) !important;
-            transform-origin: top left !important;
-            /* 字号放大 1/ratio，缩放后视觉与未压页一致 */
-            font-size: calc(100% / var(--compress-ratio)) !important;
-        }
-
-        body.compress-body .text-xs {
-            font-size: calc(0.75rem / var(--compress-ratio)) !important;
-        }
-
-        body.compress-body .text-sm {
-            font-size: calc(0.875rem / var(--compress-ratio)) !important;
-        }
-
-        body.compress-body .text-base {
-            font-size: calc(1rem / var(--compress-ratio)) !important;
-        }
-
-        body.compress-body .text-lg {
-            font-size: calc(1.125rem / var(--compress-ratio)) !important;
-        }
-
-        body.compress-body .text-xl {
-            font-size: calc(1.25rem / var(--compress-ratio)) !important;
-        }
-
-        body.compress-body .text-2xl {
-            font-size: calc(1.5rem / var(--compress-ratio)) !important;
-        }
-
-        body.compress-body .text-3xl {
-            font-size: calc(1.875rem / var(--compress-ratio)) !important;
-        }
-
-        body.compress-body .text-4xl {
-            font-size: calc(2.25rem / var(--compress-ratio)) !important;
-        }
-
-        body.compress-body .text-5xl {
-            font-size: calc(3rem / var(--compress-ratio)) !important;
-        }
-
-        body.compress-body .text-6xl {
-            font-size: calc(3.75rem / var(--compress-ratio)) !important;
-        }
-
-        body.compress-body .text-7xl {
-            font-size: calc(4.5rem / var(--compress-ratio)) !important;
-        }
-
-        body.compress-body .text-8xl {
-            font-size: calc(6rem / var(--compress-ratio)) !important;
-        }
-
-        body.compress-body .text-9xl {
-            font-size: calc(8rem / var(--compress-ratio)) !important;
-        }
-
-        body.compress-body .slide-container,
-        body.compress-body>div:first-child {
-            width: 1575.111111111111px !important;
-            height: 886px !important;
-            max-width: 100% !important;
-            max-height: 100% !important;
-            box-sizing: border-box !important;
-        }
     </style>
 </head>
 
-<body class="compress-body">
-    <div class="slide-container" style=" overflow: hidden;">
-        <!-- Header Section -->
+<body class="bg-slate-50 flex items-center justify-center">
+    <div class="relative w-full h-screen flex flex-col justify-center p-20" style="overflow: hidden;">
+
         <div class="mb-12 border-l-8 border-emerald-800 pl-6">
             <h2 class="text-emerald-900 text-sm font-semibold tracking-widest uppercase mb-2">02. Our Team</h2>
             <h1 class="text-5xl font-extrabold text-slate-900">팀 소개: <span class="text-emerald-800">반대표와 아이들</span></h1>
             <p class="text-xl text-slate-500 mt-4">"든든한 반대표와 함께 C언어라는 쉽지 않은 여정을 완벽하게 컴파일합니다."</p>
         </div>
-        <!-- Team Members Grid -->
-        <div class="grid grid-cols-4 gap-6 flex-grow">
-            <!-- Kim Do-yun -->
+
+        <div class="grid grid-cols-4 gap-6 mb-10">
             <div
                 class="bg-white rounded-2xl p-8 card-shadow flex flex-col items-center text-center border-t-4 border-emerald-700">
                 <div
@@ -155,7 +55,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Kim Jun-young -->
             <div
                 class="bg-white rounded-2xl p-8 card-shadow flex flex-col items-center text-center border-t-4 border-rose-700">
                 <div
@@ -175,7 +74,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Lee Yun-ho -->
             <div
                 class="bg-white rounded-2xl p-8 card-shadow flex flex-col items-center text-center border-t-4 border-amber-600">
                 <div
@@ -195,7 +93,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Jang Won-jun -->
             <div
                 class="bg-white rounded-2xl p-8 card-shadow flex flex-col items-center text-center border-t-4 border-slate-800">
                 <div
@@ -216,8 +113,8 @@
                 </div>
             </div>
         </div>
-        <!-- Footer Tagline -->
-        <div class="mt-10 flex justify-center">
+
+        <div class="flex justify-center">
             <div class="bg-emerald-900 text-white px-8 py-3 rounded-full flex items-center gap-3">
                 <i class="fas fa-quote-left text-emerald-300"></i>
                 <span class="text-lg font-medium">각기 다른 강점이 모여 만드는 우리 팀의 완벽한 알고리즘</span>
