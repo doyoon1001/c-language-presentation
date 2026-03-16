@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://picture-search.skywork.ai/aippt/static/tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;800&display=swap');
+
+        body {
+            overflow: hidden;
+            font-family: 'Pretendard', sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 1280px;
+            min-height: 720px;
+
+            background-color: #ffffff;
+        }
+
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            padding: 50px 70px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pro-card {
+            background-color: #ecfdf5;
+            border-left: 6px solid #059669;
+        }
+
+        .con-card {
+            background-color: #fff1f2;
+            border-left: 6px solid #e11d48;
+        }
+
+        html {
+            overflow: hidden;
+        }
+    </style>
+    <style id="compress-style">
+        html,
+        body.compress-body {
+            margin: 0 !important;
+        }
+
+        body.compress-body {
+            --compress-ratio: 0.8551068883610451;
+            --compress-expanded-width: 1496.888888888889px;
+            --compress-original-height: 842px;
+            --compress-pt: 0px;
+            --compress-pr: 0px;
+            --compress-pb: 0px;
+            --compress-pl: 0px;
+            box-sizing: border-box !important;
+            height: var(--compress-original-height) !important;
+            width: var(--compress-expanded-width) !important;
+            padding: var(--compress-pt) var(--compress-pr) var(--compress-pb) var(--compress-pl) !important;
+            overflow: hidden !important;
+            transform: scale(var(--compress-ratio)) !important;
+            transform-origin: top left !important;
+            /* 字号放大 1/ratio，缩放后视觉与未压页一致 */
+            font-size: calc(100% / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-xs {
+            font-size: calc(0.75rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-sm {
+            font-size: calc(0.875rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-base {
+            font-size: calc(1rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-lg {
+            font-size: calc(1.125rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-xl {
+            font-size: calc(1.25rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-2xl {
+            font-size: calc(1.5rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-3xl {
+            font-size: calc(1.875rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-4xl {
+            font-size: calc(2.25rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-5xl {
+            font-size: calc(3rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-6xl {
+            font-size: calc(3.75rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-7xl {
+            font-size: calc(4.5rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-8xl {
+            font-size: calc(6rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .text-9xl {
+            font-size: calc(8rem / var(--compress-ratio)) !important;
+        }
+
+        body.compress-body .slide-container,
+        body.compress-body>div:first-child {
+            width: 1496.888888888889px !important;
+            height: 842px !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            box-sizing: border-box !important;
+        }
+    </style>
+</head>
+
+<body class="compress-body">
+    <div class="slide-container" style=" overflow: hidden;">
+        <!-- Header -->
+        <div class="mb-10">
+            <h2 class="text-slate-400 text-sm font-bold tracking-[0.2em] uppercase mb-2">Analysis</h2>
+            <h1 class="text-5xl font-extrabold text-slate-900">C언어의 <span class="text-blue-600">장점과 단점</span> 분석</h1>
+            <div class="w-24 h-1.5 bg-blue-600 mt-4"></div>
+        </div>
+        <!-- Content Grid -->
+        <div class="grid grid-cols-2 gap-10 flex-grow">
+            <!-- Pros Section -->
+            <div class="flex flex-col gap-4">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-600 flex items-center justify-center text-white">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-emerald-900 uppercase tracking-tight">Advantages</h3>
+                </div>
+                <div class="pro-card p-5 rounded-r-xl">
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-bolt text-emerald-600 mt-1 text-xl"></i>
+                        <div>
+                            <h4 class="font-bold text-emerald-900 text-lg">빠른 실행 속도</h4>
+                            <p class="text-emerald-800/80 text-sm leading-relaxed">어셈블리어를 대체하기 위해 설계되어 최상의 퍼포먼스를 제공합니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="pro-card p-5 rounded-r-xl">
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-microchip text-emerald-600 mt-1 text-xl"></i>
+                        <div>
+                            <h4 class="font-bold text-emerald-900 text-lg">하드웨어 직접 제어</h4>
+                            <p class="text-emerald-800/80 text-sm leading-relaxed">메모리 주소와 바이트 단위 제어로 시스템 프로그래밍에 최적화되어
+                                있습니다.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="pro-card p-5 rounded-r-xl">
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-globe text-emerald-600 mt-1 text-xl"></i>
+                        <div>
+                            <h4 class="font-bold text-emerald-900 text-lg">높은 이식성 및 확장성</h4>
+                            <p class="text-emerald-800/80 text-sm leading-relaxed">표준화된 문법 덕분에 다양한 기기와 플랫폼에서 원활하게 실행됩니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Cons Section -->
+            <div class="flex flex-col gap-4">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 rounded-lg bg-rose-600 flex items-center justify-center text-white">
+                        <i class="fas fa-minus"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-rose-900 uppercase tracking-tight">Disadvantages</h3>
+                </div>
+                <div class="con-card p-5 rounded-r-xl">
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-bug text-rose-600 mt-1 text-xl"></i>
+                        <div>
+                            <h4 class="font-bold text-rose-900 text-lg">잦은 코드상의 에러</h4>
+                            <p class="text-rose-800/80 text-sm leading-relaxed">높은 유연성으로 인해 개발자의 사소한 실수가 치명적인 오류로 이어질 수
+                                있습니다.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="con-card p-5 rounded-r-xl">
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-shield-alt text-rose-600 mt-1 text-xl"></i>
+                        <div>
+                            <h4 class="font-bold text-rose-900 text-lg">안전성 부족 (메모리 관리)</h4>
+                            <p class="text-rose-800/80 text-sm leading-relaxed">메모리를 수동으로 관리해야 하므로 메모리 누수 등의 보안 취약점이
+                                발생하기 쉽습니다.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="con-card p-5 rounded-r-xl">
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-hourglass-half text-rose-600 mt-1 text-xl"></i>
+                        <div>
+                            <h4 class="font-bold text-rose-900 text-lg">상대적으로 낮은 생산성</h4>
+                            <p class="text-rose-800/80 text-sm leading-relaxed">고수준 언어에 비해 구현 속도가 느리며 유지보수가 까다로울 수 있습니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bottom Summary -->
+        <div class="mt-8 bg-slate-100 p-4 rounded-xl flex items-center justify-between border border-slate-200">
+            <p class="text-slate-600 font-medium">
+                <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                C언어는 <span class="text-emerald-700 font-bold">성능과 제어권</span>을 얻는 대신, <span
+                    class="text-rose-700 font-bold">개발의 난이도와 안전성</span>을 개발자가 책임지는 언어입니다.
+            </p>
+        </div>
+    </div>
+
+    <script src="./src/concat.js"></script>
+</body>
+
+</html>
