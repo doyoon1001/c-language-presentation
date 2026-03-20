@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>C언어 프로그래밍의 기초와 핵심 — 반대표와 아이들</title>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    body, html {
-      width: 100%; height: 100%;
+    body,
+    html {
+      width: 100%;
+      height: 100%;
       overflow: hidden;
       background: #0f172a;
       font-family: 'Segoe UI', sans-serif;
@@ -24,7 +33,9 @@
     /* 상단 타이틀 바 */
     #topbar {
       position: fixed;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 36px;
       background: rgba(15, 23, 42, 0.88);
       backdrop-filter: blur(8px);
@@ -33,39 +44,51 @@
       justify-content: space-between;
       padding: 0 20px;
       z-index: 1000;
-      border-bottom: 1px solid rgba(255,255,255,.07);
+      border-bottom: 1px solid rgba(255, 255, 255, .07);
       transition: opacity 0.4s;
     }
-    #topbar.hidden { opacity: 0; pointer-events: none; }
+
+    #topbar.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
 
     .topbar-title {
       font-size: 12px;
       font-weight: 600;
-      color: rgba(255,255,255,.5);
+      color: rgba(255, 255, 255, .5);
       letter-spacing: .06em;
     }
-    .topbar-title span { color: #60a5fa; }
+
+    .topbar-title span {
+      color: #60a5fa;
+    }
 
     .topbar-hint {
       font-size: 11px;
-      color: rgba(255,255,255,.3);
+      color: rgba(255, 255, 255, .3);
       letter-spacing: .04em;
     }
 
     /* 전체화면 버튼 */
     #fsBtn {
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .12);
       border-radius: 6px;
-      color: rgba(255,255,255,.5);
+      color: rgba(255, 255, 255, .5);
       font-size: 11px;
       padding: 3px 10px;
       cursor: pointer;
       transition: background .2s, color .2s;
     }
-    #fsBtn:hover { background: rgba(255,255,255,.15); color: #fff; }
+
+    #fsBtn:hover {
+      background: rgba(255, 255, 255, .15);
+      color: #fff;
+    }
   </style>
 </head>
+
 <body>
 
   <div id="topbar">
@@ -74,7 +97,7 @@
     <button id="fsBtn" onclick="toggleFullscreen()">⛶ 전체화면</button>
   </div>
 
-  <iframe id="viewer" src="chapter1_slides_new.html" allowfullscreen></iframe>
+  <iframe id="viewer" src="slides/chapter1_slides_new.html" allowfullscreen></iframe>
 
   <script>
     const topbar = document.getElementById('topbar');
@@ -105,8 +128,9 @@
         iframe.contentWindow.dispatchEvent(new KeyboardEvent('keydown', {
           key: e.key, bubbles: true
         }));
-      } catch(err) {}
+      } catch (err) { }
     });
   </script>
 </body>
+
 </html>
