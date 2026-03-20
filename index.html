@@ -1,75 +1,112 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-    <meta charset="UTF-8">
-    <title>C언어 팀플 발표 자료</title>
-    <style>
-        body,
-        html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: #000;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C언어 프로그래밍의 기초와 핵심 — 반대표와 아이들</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        iframe {
-            width: 100vw;
-            height: 100vh;
-            border: none;
-        }
+    body, html {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: #0f172a;
+      font-family: 'Segoe UI', sans-serif;
+    }
 
-        .controls {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            color: white;
-            opacity: 0.3;
-            transition: 0.3s;
-        }
+    iframe {
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      display: block;
+    }
 
-        .controls:hover {
-            opacity: 1;
-        }
+    /* 상단 타이틀 바 */
+    #topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 36px;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      transition: opacity 0.4s;
+    }
+    #topbar.hidden { opacity: 0; pointer-events: none; }
 
-        /* index.html의 style 태그 안에 추가 */
-        #viewer {
-            transition: opacity 0.3s ease-in-out;
-            background-color: white;
-        }
-    </style>
+    .topbar-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255,255,255,.5);
+      letter-spacing: .06em;
+    }
+    .topbar-title span { color: #60a5fa; }
+
+    .topbar-hint {
+      font-size: 11px;
+      color: rgba(255,255,255,.3);
+      letter-spacing: .04em;
+    }
+
+    /* 전체화면 버튼 */
+    #fsBtn {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 6px;
+      color: rgba(255,255,255,.5);
+      font-size: 11px;
+      padding: 3px 10px;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+    #fsBtn:hover { background: rgba(255,255,255,.15); color: #fff; }
+  </style>
 </head>
-
 <body>
-    <iframe id="viewer" src="slides/page1.html"></iframe>
 
-    <div class="controls">
-        <span id="pageInfo">1 / 9</span> | ← → 화살표 키로 이동
-    </div>
+  <div id="topbar">
+    <div class="topbar-title">C언어 EXPRESS · <span>Chapter 01</span> — 반대표와 아이들</div>
+    <div class="topbar-hint">← → 화살표 키 또는 슬라이드 하단 버튼으로 이동</div>
+    <button id="fsBtn" onclick="toggleFullscreen()">⛶ 전체화면</button>
+  </div>
 
-    <script>
-        let currentSlide = 1;
-        const totalSlides = 9;
-        const viewer = document.getElementById('viewer');
-        const pageInfo = document.getElementById('pageInfo');
+  <iframe id="viewer" src="chapter1_slides_new.html" allowfullscreen></iframe>
 
-        function updateSlide() {
-            viewer.src = `slides/page${currentSlide}.html`;
-            pageInfo.innerText = `${currentSlide} / ${totalSlides}`;
-        }
+  <script>
+    const topbar = document.getElementById('topbar');
+    let hideTimer;
 
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' || e.key === ' ') {
-                if (currentSlide < totalSlides) currentSlide++;
-                updateSlide();
-            } else if (e.key === 'ArrowLeft') {
-                if (currentSlide > 1) currentSlide--;
-                updateSlide();
-            }
-        });
-    </script>
+    // 마우스 움직이면 상단 바 표시, 3초 후 숨김
+    document.addEventListener('mousemove', () => {
+      topbar.classList.remove('hidden');
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(() => topbar.classList.add('hidden'), 3000);
+    });
+
+    // 전체화면 토글
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+        document.getElementById('fsBtn').textContent = '✕ 전체화면 종료';
+      } else {
+        document.exitFullscreen();
+        document.getElementById('fsBtn').textContent = '⛶ 전체화면';
+      }
+    }
+
+    // 키보드 이벤트를 iframe 안으로 전달
+    document.addEventListener('keydown', (e) => {
+      const iframe = document.getElementById('viewer');
+      try {
+        iframe.contentWindow.dispatchEvent(new KeyboardEvent('keydown', {
+          key: e.key, bubbles: true
+        }));
+      } catch(err) {}
+    });
+  </script>
 </body>
-
 </html>
