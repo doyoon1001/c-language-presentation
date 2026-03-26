@@ -85,15 +85,9 @@
     }
 
     /* ─── PROGRESS BAR ─── */
-    #progress-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--g-main), var(--g-light));
-      transition: width .35s ease;
-      z-index: 200;
-    }
+    .progress-bar  { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: rgba(0,0,0,.15); z-index: 1000; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #4F46E5, #7C3AED);
+                      width: 0%; transition: width 0.35s cubic-bezier(0.4,0,0.2,1); will-change: width; }
 
     /* ─── NAV ─── */
     .nav {
@@ -145,34 +139,15 @@
       cursor: not-allowed;
     }
 
-    .nav-counter {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--s-500);
-      min-width: 48px;
-      text-align: center;
-    }
+    .dot-nav { display: flex; gap: 6px; align-items: center; }
 
-    .dots {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.4);
+           border: none; cursor: pointer; transition: transform 0.2s, background 0.2s; }
+    .dot:hover           { transform: scale(1.4); background: rgba(255,255,255,.7); }
+    .dot[aria-selected="true"] { transform: scale(1.4); background: #fff; }
 
-    .dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--s-200);
-      cursor: pointer;
-      transition: background .2s, transform .2s;
-    }
-
-    .dot.active {
-      background: var(--g-main);
-      transform: scale(1.35);
-    }
+    .slide-counter { position: fixed; bottom: 16px; right: 20px;
+                      font-size: .875rem; font-variant-numeric: tabular-nums; }
 
     /* ─── SLIDE HEADER ─── */
     .slide-header {
@@ -624,7 +599,10 @@
 
 <body>
 
-  <div id="progress-bar"></div>
+  <div class="progress-bar" role="progressbar" aria-valuemin="1" aria-valuemax="13" aria-valuenow="1">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+  <div class="slide-counter" aria-live="polite"><span id="curNum">1</span> / <span id="totNum">13</span></div>
 
   <div class="deck" id="deck">
 
@@ -1615,8 +1593,7 @@
     <button class="nav-btn" id="btn-prev" aria-label="이전" disabled>
       <i class="fa-solid fa-chevron-left"></i>
     </button>
-    <div class="dots" id="dots"></div>
-    <span class="nav-counter" id="counter">1 / 13</span>
+    <nav class="dot-nav" id="dotNav" role="tablist" aria-label="슬라이드 목록"></nav>
     <button class="nav-btn" id="btn-next" aria-label="다음">
       <i class="fa-solid fa-chevron-right"></i>
     </button>
@@ -1629,9 +1606,7 @@
     (() => {
       const slides = [...document.querySelectorAll('.slide')];
       const total = slides.length;
-      const pb = document.getElementById('progress-bar');
-      const dots = document.getElementById('dots');
-      const counter = document.getElementById('counter');
+      const dots = document.getElementById('dotNav');
       const btnPrev = document.getElementById('btn-prev');
       const btnNext = document.getElementById('btn-next');
       const btnFs = document.getElementById('btn-fs');
@@ -1640,20 +1615,27 @@
       /* 도트 생성 */
       slides.forEach((_, i) => {
         const d = document.createElement('button');
-        d.className = 'dot' + (i === 0 ? ' active' : '');
+        d.className = 'dot';
+        d.setAttribute('role', 'tab');
         d.setAttribute('aria-label', `슬라이드 ${i + 1}`);
+        d.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+        d.setAttribute('tabindex', i === 0 ? '0' : '-1');
         d.addEventListener('click', () => goTo(i));
         dots.appendChild(d);
       });
 
       function updateUI() {
         const pct = total <= 1 ? 100 : (cur / (total - 1)) * 100;
-        pb.style.width = pct.toFixed(2) + '%';
-        counter.textContent = `${cur + 1} / ${total}`;
+        requestAnimationFrame(() => {
+          document.getElementById('progressFill').style.width = `${pct.toFixed(2)}%`;
+        });
+        document.getElementById('curNum').textContent = cur + 1;
         btnPrev.disabled = cur === 0;
         btnNext.disabled = cur === total - 1;
-        document.querySelectorAll('.dot').forEach((d, i) =>
-          d.classList.toggle('active', i === cur));
+        document.querySelectorAll('.dot').forEach((d, i) => {
+          d.setAttribute('aria-selected', i === cur ? 'true' : 'false');
+          d.setAttribute('tabindex', i === cur ? '0' : '-1');
+        });
       }
 
       function goTo(target, dir) {

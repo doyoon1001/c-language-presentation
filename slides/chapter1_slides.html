@@ -86,15 +86,9 @@
     }
 
     /* ─── PROGRESS BAR ─── */
-    #progress-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--g-main), var(--g-light));
-      transition: width .35s ease;
-      z-index: 200;
-    }
+    .progress-bar  { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: rgba(0,0,0,.15); z-index: 1000; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #4F46E5, #7C3AED);
+                      width: 0%; transition: width 0.35s cubic-bezier(0.4,0,0.2,1); will-change: width; }
 
     /* ─── NAV ─── */
     .nav {
@@ -138,34 +132,15 @@
       cursor: not-allowed;
     }
 
-    .nav-counter {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--s-500);
-      min-width: 48px;
-      text-align: center;
-    }
+    .dot-nav { display: flex; gap: 6px; align-items: center; }
 
-    .dots {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.4);
+           border: none; cursor: pointer; transition: transform 0.2s, background 0.2s; }
+    .dot:hover           { transform: scale(1.4); background: rgba(255,255,255,.7); }
+    .dot[aria-selected="true"] { transform: scale(1.4); background: #fff; }
 
-    .dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--s-200);
-      cursor: pointer;
-      transition: background .2s, transform .2s;
-    }
-
-    .dot.active {
-      background: var(--g-main);
-      transform: scale(1.35);
-    }
+    .slide-counter { position: fixed; bottom: 16px; right: 20px;
+                      font-size: .875rem; font-variant-numeric: tabular-nums; }
 
     /* ─── SLIDE HEADER ─── */
     .slide-header {
@@ -544,7 +519,10 @@
 
 <body>
 
-  <div id="progress-bar"></div>
+  <div class="progress-bar" role="progressbar" aria-valuemin="1" aria-valuemax="11" aria-valuenow="1">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+  <div class="slide-counter" aria-live="polite"><span id="curNum">1</span> / <span id="totNum">11</span></div>
 
   <div class="deck" id="deck">
 
@@ -1299,8 +1277,7 @@
   <!-- NAV -->
   <nav class="nav" id="nav">
     <button class="nav-btn" id="prevBtn" disabled onclick="go(-1)"><i class="fas fa-chevron-left"></i></button>
-    <div class="dots" id="dots"></div>
-    <span class="nav-counter" id="counter">1 / 11</span>
+    <nav class="dot-nav" id="dotNav" role="tablist" aria-label="슬라이드 목록"></nav>
     <button class="nav-btn" id="nextBtn" onclick="go(1)"><i class="fas fa-chevron-right"></i></button>
   </nav>
 
@@ -1308,26 +1285,34 @@
     const TOTAL = 11;
     let cur = 0;
     const slides = document.querySelectorAll('.slide');
-    const dotsEl = document.getElementById('dots');
-    const counter = document.getElementById('counter');
+    const dotsEl = document.getElementById('dotNav');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    const bar = document.getElementById('progress-bar');
 
     // Build dots
     for (let i = 0; i < TOTAL; i++) {
-      const d = document.createElement('div');
-      d.className = 'dot' + (i === 0 ? ' active' : '');
+      const d = document.createElement('button');
+      d.className = 'dot';
+      d.setAttribute('role', 'tab');
+      d.setAttribute('aria-label', `슬라이드 ${i + 1}`);
+      d.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+      d.setAttribute('tabindex', i === 0 ? '0' : '-1');
       d.onclick = () => goTo(i);
       dotsEl.appendChild(d);
     }
 
     function updateUI() {
-      counter.textContent = `${cur + 1} / ${TOTAL}`;
+      const pct = TOTAL <= 1 ? 100 : (cur / (TOTAL - 1)) * 100;
+      requestAnimationFrame(() => {
+        document.getElementById('progressFill').style.width = `${pct.toFixed(2)}%`;
+      });
+      document.getElementById('curNum').textContent = cur + 1;
       prevBtn.disabled = cur === 0;
       nextBtn.disabled = cur === TOTAL - 1;
-      document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
-      bar.style.width = `${((cur + 1) / TOTAL) * 100}%`;
+      document.querySelectorAll('.dot').forEach((d, i) => {
+        d.setAttribute('aria-selected', i === cur ? 'true' : 'false');
+        d.setAttribute('tabindex', i === cur ? '0' : '-1');
+      });
     }
 
     function goTo(n) {
