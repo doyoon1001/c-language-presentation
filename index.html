@@ -6,13 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>C언어 EXPRESS — 반대표와 아이들</title>
   <style>
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    body, html {
+    body,
+    html {
       width: 100%;
       height: 100%;
       background: #0f172a;
@@ -93,7 +96,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(96,165,250,.08) 0%, transparent 60%);
+      background: linear-gradient(135deg, rgba(96, 165, 250, .08) 0%, transparent 60%);
       opacity: 0;
       transition: opacity .25s;
     }
@@ -255,7 +258,8 @@
     <div id="topbar">
       <div class="topbar-left">
         <button id="backBtn" onclick="goHub()">← 목록</button>
-        <div class="topbar-title" id="topbarTitle">C언어 EXPRESS · <span id="topbarChapter">Chapter 01</span> — 반대표와 아이들</div>
+        <div class="topbar-title" id="topbarTitle">C언어 EXPRESS · <span id="topbarChapter">Chapter 01</span> — 반대표와 아이들
+        </div>
       </div>
       <div class="topbar-hint">← → 화살표 키 또는 슬라이드 하단 버튼으로 이동</div>
       <button id="fsBtn" onclick="toggleFullscreen()">⛶ 전체화면</button>
@@ -272,16 +276,15 @@
         num: 'CHAPTER 01',
         title: 'C언어 프로그래밍의\n기초와 핵심',
         desc: '변수, 자료형, 입출력, 조건문, 반복문 등 C언어의 핵심 개념을 다룹니다.',
-        file: 'slides/chapter1_slides_new.html'
+        file: 'slides/chapter1_slides.html'
       },
-      // 새 챕터 추가 예시:
-      // {
-      //   id: 'chapter2',
-      //   num: 'CHAPTER 02',
-      //   title: '포인터와 메모리',
-      //   desc: '포인터, 동적 메모리 할당, 배열과의 관계를 배웁니다.',
-      //   file: 'slides/chapter2_slides.html'
-      // },
+      {
+        id: 'chapter2',
+        num: 'CHAPTER 02',
+        title: '프로그래밍 언어와\nC언어의 세계',
+        desc: '기계어, 어셈블리어, 고급언어의 특징과 C언어의 역사에 대해 알아봅니다.',
+        file: 'slides/chapter2_slides.html'
+      }
     ];
 
     // ── 카드 렌더링 ──
@@ -352,7 +355,7 @@
         iframe.contentWindow.dispatchEvent(new KeyboardEvent('keydown', {
           key: e.key, bubbles: true
         }));
-      } catch (err) {}
+      } catch (err) { }
     });
   </script>
 </body>
