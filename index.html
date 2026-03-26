@@ -4,40 +4,158 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>C언어 프로그래밍의 기초와 핵심 — 반대표와 아이들</title>
+  <title>C언어 EXPRESS — 반대표와 아이들</title>
   <style>
-    *,
-    *::before,
-    *::after {
+    *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    body,
-    html {
+    body, html {
       width: 100%;
       height: 100%;
-      overflow: hidden;
       background: #0f172a;
       font-family: 'Segoe UI', sans-serif;
+      color: #fff;
     }
 
-    iframe {
+    /* ───── HUB (랜딩) ───── */
+    #hub {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 48px 24px;
+      gap: 48px;
+    }
+
+    .hub-header {
+      text-align: center;
+    }
+
+    .hub-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      color: #60a5fa;
+      background: rgba(96, 165, 250, .1);
+      border: 1px solid rgba(96, 165, 250, .25);
+      border-radius: 99px;
+      padding: 4px 14px;
+      margin-bottom: 16px;
+    }
+
+    .hub-title {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #fff 40%, #93c5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hub-sub {
+      margin-top: 10px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, .4);
+      letter-spacing: .04em;
+    }
+
+    /* ───── 챕터 카드 그리드 ───── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 16px;
+      padding: 28px 24px;
+      cursor: pointer;
+      transition: background .2s, border-color .2s, transform .2s;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(96,165,250,.08) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity .25s;
+    }
+
+    .card:hover {
+      background: rgba(255, 255, 255, .07);
+      border-color: rgba(96, 165, 250, .4);
+      transform: translateY(-3px);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-num {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      color: #60a5fa;
+    }
+
+    .card-title {
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      color: #f1f5f9;
+    }
+
+    .card-desc {
+      font-size: 12.5px;
+      color: rgba(255, 255, 255, .35);
+      line-height: 1.6;
+    }
+
+    .card-arrow {
+      margin-top: 8px;
+      font-size: 13px;
+      color: rgba(96, 165, 250, .6);
+      align-self: flex-end;
+      transition: color .2s, transform .2s;
+    }
+
+    .card:hover .card-arrow {
+      color: #60a5fa;
+      transform: translateX(4px);
+    }
+
+    /* ───── VIEWER ───── */
+    #viewer-wrap {
+      display: none;
       width: 100vw;
       height: 100vh;
-      border: none;
-      display: block;
+      overflow: hidden;
     }
 
-    /* 상단 타이틀 바 */
     #topbar {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       height: 36px;
-      background: rgba(15, 23, 42, 0.88);
+      background: rgba(15, 23, 42, .88);
       backdrop-filter: blur(8px);
       display: flex;
       align-items: center;
@@ -45,12 +163,34 @@
       padding: 0 20px;
       z-index: 1000;
       border-bottom: 1px solid rgba(255, 255, 255, .07);
-      transition: opacity 0.4s;
+      transition: opacity .4s;
     }
 
     #topbar.hidden {
       opacity: 0;
       pointer-events: none;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    #backBtn {
+      background: rgba(255, 255, 255, .07);
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 6px;
+      color: rgba(255, 255, 255, .5);
+      font-size: 11px;
+      padding: 3px 10px;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+
+    #backBtn:hover {
+      background: rgba(255, 255, 255, .14);
+      color: #fff;
     }
 
     .topbar-title {
@@ -70,7 +210,6 @@
       letter-spacing: .04em;
     }
 
-    /* 전체화면 버튼 */
     #fsBtn {
       background: rgba(255, 255, 255, .08);
       border: 1px solid rgba(255, 255, 255, .12);
@@ -86,31 +225,115 @@
       background: rgba(255, 255, 255, .15);
       color: #fff;
     }
+
+    iframe {
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      display: block;
+    }
   </style>
 </head>
 
 <body>
 
-  <div id="topbar">
-    <div class="topbar-title">C언어 EXPRESS · <span>Chapter 01</span> — 반대표와 아이들</div>
-    <div class="topbar-hint">← → 화살표 키 또는 슬라이드 하단 버튼으로 이동</div>
-    <button id="fsBtn" onclick="toggleFullscreen()">⛶ 전체화면</button>
+  <!-- ── 허브 ── -->
+  <div id="hub">
+    <div class="hub-header">
+      <div class="hub-badge">C언어 EXPRESS</div>
+      <div class="hub-title">반대표와 아이들</div>
+      <div class="hub-sub">챕터를 선택하여 슬라이드를 시작하세요</div>
+    </div>
+
+    <div class="card-grid" id="cardGrid">
+      <!-- 카드는 JS로 생성 -->
+    </div>
   </div>
 
-  <iframe id="viewer" src="slides/chapter1_slides_new.html" allowfullscreen></iframe>
+  <!-- ── 뷰어 ── -->
+  <div id="viewer-wrap">
+    <div id="topbar">
+      <div class="topbar-left">
+        <button id="backBtn" onclick="goHub()">← 목록</button>
+        <div class="topbar-title" id="topbarTitle">C언어 EXPRESS · <span id="topbarChapter">Chapter 01</span> — 반대표와 아이들</div>
+      </div>
+      <div class="topbar-hint">← → 화살표 키 또는 슬라이드 하단 버튼으로 이동</div>
+      <button id="fsBtn" onclick="toggleFullscreen()">⛶ 전체화면</button>
+    </div>
+
+    <iframe id="slideFrame" src="" allowfullscreen></iframe>
+  </div>
 
   <script>
+    // ── 챕터 목록 (여기에 챕터 추가하면 됨) ──
+    const chapters = [
+      {
+        id: 'chapter1',
+        num: 'CHAPTER 01',
+        title: 'C언어 프로그래밍의\n기초와 핵심',
+        desc: '변수, 자료형, 입출력, 조건문, 반복문 등 C언어의 핵심 개념을 다룹니다.',
+        file: 'slides/chapter1_slides_new.html'
+      },
+      // 새 챕터 추가 예시:
+      // {
+      //   id: 'chapter2',
+      //   num: 'CHAPTER 02',
+      //   title: '포인터와 메모리',
+      //   desc: '포인터, 동적 메모리 할당, 배열과의 관계를 배웁니다.',
+      //   file: 'slides/chapter2_slides.html'
+      // },
+    ];
+
+    // ── 카드 렌더링 ──
+    const grid = document.getElementById('cardGrid');
+    chapters.forEach(ch => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="card-num">${ch.num}</div>
+        <div class="card-title">${ch.title.replace('\n', '<br>')}</div>
+        <div class="card-desc">${ch.desc}</div>
+        <div class="card-arrow">슬라이드 열기 →</div>
+      `;
+      card.onclick = () => openChapter(ch);
+      grid.appendChild(card);
+    });
+
+    // ── 챕터 열기 ──
+    function openChapter(ch) {
+      document.getElementById('topbarChapter').textContent = ch.num;
+      document.getElementById('slideFrame').src = ch.file;
+      document.getElementById('hub').style.display = 'none';
+      document.getElementById('viewer-wrap').style.display = 'block';
+      location.hash = ch.id;
+    }
+
+    // ── 허브로 돌아가기 ──
+    function goHub() {
+      document.getElementById('viewer-wrap').style.display = 'none';
+      document.getElementById('hub').style.display = 'flex';
+      document.getElementById('slideFrame').src = '';
+      location.hash = '';
+      document.getElementById('fsBtn').textContent = '⛶ 전체화면';
+    }
+
+    // ── URL 해시로 직접 진입 ──
+    const hash = location.hash.replace('#', '');
+    if (hash) {
+      const ch = chapters.find(c => c.id === hash);
+      if (ch) openChapter(ch);
+    }
+
+    // ── 상단 바 자동 숨김 ──
     const topbar = document.getElementById('topbar');
     let hideTimer;
-
-    // 마우스 움직이면 상단 바 표시, 3초 후 숨김
     document.addEventListener('mousemove', () => {
       topbar.classList.remove('hidden');
       clearTimeout(hideTimer);
       hideTimer = setTimeout(() => topbar.classList.add('hidden'), 3000);
     });
 
-    // 전체화면 토글
+    // ── 전체화면 ──
     function toggleFullscreen() {
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen();
@@ -121,14 +344,15 @@
       }
     }
 
-    // 키보드 이벤트를 iframe 안으로 전달
+    // ── 키보드 이벤트 iframe 전달 ──
     document.addEventListener('keydown', (e) => {
-      const iframe = document.getElementById('viewer');
+      const iframe = document.getElementById('slideFrame');
+      if (!iframe.src) return;
       try {
         iframe.contentWindow.dispatchEvent(new KeyboardEvent('keydown', {
           key: e.key, bubbles: true
         }));
-      } catch (err) { }
+      } catch (err) {}
     });
   </script>
 </body>
