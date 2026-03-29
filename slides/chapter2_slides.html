@@ -591,10 +591,10 @@
 
 <body>
 
-  <div class="progress-bar" role="progressbar" aria-valuemin="1" aria-valuemax="13" aria-valuenow="1">
+  <div class="progress-bar" role="progressbar" aria-valuemin="1" aria-valuemax="14" aria-valuenow="1">
     <div class="progress-fill" id="progressFill"></div>
   </div>
-  <div class="slide-counter" aria-live="polite"><span id="curNum">1</span> / <span id="totNum">13</span></div>
+  <div class="slide-counter" aria-live="polite"><span id="curNum">1</span> / <span id="totNum">14</span></div>
 
   <div class="deck" id="deck">
 
@@ -786,14 +786,14 @@
             <div class="person-desc">팀 전반 조율 · 기획 총괄</div>
           </div>
 
-          <!-- 자료조사 1 -->
+          <!-- 발표 -->
           <div class="person-panel">
             <div class="avatar" style="font-family:'JetBrains Mono',monospace;">김</div>
             <div class="person-name">김준영</div>
             <div class="person-sub">
-              <i class="fa-solid fa-magnifying-glass" style="margin-right:4px;"></i>자료 조사
+              <i class="fa-solid fa-microphone" style="margin-right:4px;color:#f87171;"></i>발 표
             </div>
-            <div class="person-desc">자료 수집 및 정리</div>
+            <div class="person-desc">발표 진행 및 전달</div>
           </div>
 
           <!-- 자료조사 2 -->
@@ -806,14 +806,14 @@
             <div class="person-desc">자료 수집 및 정리</div>
           </div>
 
-          <!-- 발표 -->
+          <!-- 자료조사 2 -->
           <div class="person-panel">
             <div class="avatar" style="font-family:'JetBrains Mono',monospace;">장</div>
             <div class="person-name">장원준</div>
             <div class="person-sub">
-              <i class="fa-solid fa-microphone" style="margin-right:4px;color:#f87171;"></i>발 표
+              <i class="fa-solid fa-magnifying-glass" style="margin-right:4px;"></i>자료 조사
             </div>
-            <div class="person-desc">발표 진행 및 전달</div>
+            <div class="person-desc">자료 수집 및 정리</div>
           </div>
 
         </div>
@@ -1007,8 +1007,50 @@
       </div>
     </div>
 
-    <!-- ══════════════════════════════════ SLIDE 5: 언어 분류 상세 ══════ -->
+    <!-- ══════════════════════════════════ SLIDE 5 (NEW): 저급 언어와 고급 언어 ══════ -->
     <div class="slide" id="s5">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div>
+          <div class="header-label">Language Level</div>
+          <h1 class="header-h1"><span>저급 언어</span>와 고급 언어</h1>
+        </div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:14px;">
+        <div class="card">
+          <p style="font-size:13.5px;color:var(--s-700);line-height:1.8;">
+            이들을 <strong>고급 언어</strong>라고 부르는 이유는, 이 언어들의 구성이 기계어보다는
+            <strong>인간의 언어에 가깝기</strong> 때문이다. 이와는 반대로 <strong>어셈블리 언어</strong> 등은
+            기계어에 가깝기 때문에 <strong>저급 언어</strong>로 분류된다.
+          </p>
+        </div>
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:80px;">
+          <!-- 저급 언어 경로 -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+            <div class="fc-box" style="background:#fef3c7;border:2px solid #f59e0b;color:#92400e;min-width:160px;text-align:center;">저급 언어</div>
+            <div class="fc-arrow">↓</div>
+            <div style="background:var(--s-100);border:1px solid var(--s-200);border-radius:8px;padding:6px 20px;font-size:12px;font-weight:700;color:var(--s-500);">어셈블러</div>
+            <div class="fc-arrow">↓</div>
+          </div>
+          <!-- 고급 언어 경로 -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+            <div class="fc-box" style="background:var(--g-pale);border:2px solid var(--g-main);color:var(--g-dark);min-width:220px;text-align:center;">고급 언어 (C, C++, Java, Python)</div>
+            <div class="fc-arrow">↓</div>
+            <div style="background:var(--s-100);border:1px solid var(--s-200);border-radius:8px;padding:6px 20px;font-size:12px;font-weight:700;color:var(--s-500);text-align:center;">컴파일러 또는<br>인터프리터</div>
+            <div class="fc-arrow">↓</div>
+          </div>
+        </div>
+        <!-- 기계어 & 하드웨어 (공통) -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding-bottom:12px;">
+          <div class="fc-box" style="background:var(--s-200);border:2px solid var(--s-400);color:var(--s-700);min-width:200px;text-align:center;">기계어</div>
+          <div class="fc-arrow" style="font-size:22px;">↓</div>
+          <div class="fc-box" style="background:linear-gradient(135deg,var(--g-dark),var(--g-main));color:#fff;min-width:200px;text-align:center;">하드웨어</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════ SLIDE 6: 언어 분류 상세 ══════ -->
+    <div class="slide" id="s6">
       <div class="slide-header">
         <div class="header-bar"></div>
         <div>
@@ -1069,7 +1111,7 @@
     </div>
 
     <!-- ══════════════════════════════════ SLIDE 6: C언어 소개 ══════ -->
-    <div class="slide" id="s6">
+    <div class="slide" id="s7">
       <div class="slide-header">
         <div class="header-bar"></div>
         <div>
@@ -1160,7 +1202,7 @@
     </div>
 
     <!-- ══════════════════════════════════ SLIDE 7: C언어 특징 ══════ -->
-    <div class="slide" id="s7">
+    <div class="slide" id="s8">
       <div class="slide-header">
         <div class="header-bar"></div>
         <div>
@@ -1204,7 +1246,7 @@
     </div>
 
     <!-- ══════════════════════════════════ SLIDE 8: 단점 & 미래 ══════ -->
-    <div class="slide" id="s8">
+    <div class="slide" id="s9">
       <div class="slide-header">
         <div class="header-bar"></div>
         <div>
@@ -1268,7 +1310,7 @@
     </div>
 
     <!-- ══════════════════════════════════ SLIDE 9: 알고리즘이란? ══════ -->
-    <div class="slide" id="s9">
+    <div class="slide" id="s10">
       <div class="slide-header">
         <div class="header-bar"></div>
         <div>
@@ -1344,7 +1386,7 @@
     </div>
 
     <!-- ══════════════════════════════════ SLIDE 10: 알고리즘 기술 방법 ══════ -->
-    <div class="slide" id="s10">
+    <div class="slide" id="s11">
       <div class="slide-header">
         <div class="header-bar"></div>
         <div>
@@ -1436,7 +1478,7 @@
     </div>
 
     <!-- ══════════════════════════════════ SLIDE 11: 최대값 알고리즘 ══════ -->
-    <div class="slide" id="s11">
+    <div class="slide" id="s12">
       <div class="slide-header">
         <div class="header-bar"></div>
         <div>
@@ -1508,7 +1550,7 @@
     </div>
 
     <!-- ══════════════════════════════════ SLIDE 12: 마무리 ══════ -->
-    <div class="slide" id="s12" style="padding:0;overflow:hidden;">
+    <div class="slide" id="s13" style="padding:0;overflow:hidden;">
       <div
         style="position:relative;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:60px;overflow:hidden;">
         <div
@@ -1586,6 +1628,7 @@
       <i class="fa-solid fa-chevron-left"></i>
     </button>
     <nav class="dot-nav" id="dotNav" role="tablist" aria-label="슬라이드 목록"></nav>
+    <span style="font-size:12px;font-weight:700;color:var(--s-500);font-variant-numeric:tabular-nums;letter-spacing:.02em;min-width:44px;text-align:center;"><span id="navCurNum">1</span> / <span id="navTotNum">14</span></span>
     <button class="nav-btn" id="btn-next" aria-label="다음">
       <i class="fa-solid fa-chevron-right"></i>
     </button>
@@ -1622,6 +1665,7 @@
           document.getElementById('progressFill').style.width = `${pct.toFixed(2)}%`;
         });
         document.getElementById('curNum').textContent = cur + 1;
+        document.getElementById('navCurNum').textContent = cur + 1;
         btnPrev.disabled = cur === 0;
         btnNext.disabled = cur === total - 1;
         document.querySelectorAll('.dot').forEach((d, i) => {
