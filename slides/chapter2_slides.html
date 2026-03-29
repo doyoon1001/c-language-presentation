@@ -85,9 +85,23 @@
     }
 
     /* ─── PROGRESS BAR ─── */
-    .progress-bar  { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: rgba(0,0,0,.15); z-index: 1000; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg, #4F46E5, #7C3AED);
-                      width: 0%; transition: width 0.35s cubic-bezier(0.4,0,0.2,1); will-change: width; }
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: rgba(0, 0, 0, .15);
+      z-index: 1000;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4F46E5, #7C3AED);
+      width: 0%;
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: width;
+    }
 
     /* ─── NAV ─── */
     .nav {
@@ -131,15 +145,39 @@
       cursor: not-allowed;
     }
 
-    .dot-nav { display: flex; gap: 6px; align-items: center; }
+    .dot-nav {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
 
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--s-300);
-           border: none; cursor: pointer; transition: transform 0.2s, background 0.2s; }
-    .dot:hover           { transform: scale(1.4); background: var(--s-500); }
-    .dot[aria-selected="true"] { transform: scale(1.4); background: var(--g-main); }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--s-300);
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+    }
 
-    .slide-counter { position: fixed; bottom: 16px; right: 20px;
-                      font-size: .875rem; font-variant-numeric: tabular-nums; }
+    .dot:hover {
+      transform: scale(1.4);
+      background: var(--s-500);
+    }
+
+    .dot[aria-selected="true"] {
+      transform: scale(1.4);
+      background: var(--g-main);
+    }
+
+    .slide-counter {
+      position: fixed;
+      bottom: 16px;
+      right: 20px;
+      font-size: .875rem;
+      font-variant-numeric: tabular-nums;
+    }
 
     /* ─── SLIDE HEADER ─── */
     .slide-header {
@@ -1007,50 +1045,8 @@
       </div>
     </div>
 
-    <!-- ══════════════════════════════════ SLIDE 5 (NEW): 저급 언어와 고급 언어 ══════ -->
+    <!-- ══════════════════════════════════ SLIDE 5: C언어 소개 ══════ -->
     <div class="slide" id="s5">
-      <div class="slide-header">
-        <div class="header-bar"></div>
-        <div>
-          <div class="header-label">Language Level</div>
-          <h1 class="header-h1"><span>저급 언어</span>와 고급 언어</h1>
-        </div>
-      </div>
-      <div style="flex:1;display:flex;flex-direction:column;gap:14px;">
-        <div class="card">
-          <p style="font-size:13.5px;color:var(--s-700);line-height:1.8;">
-            이들을 <strong>고급 언어</strong>라고 부르는 이유는, 이 언어들의 구성이 기계어보다는
-            <strong>인간의 언어에 가깝기</strong> 때문이다. 이와는 반대로 <strong>어셈블리 언어</strong> 등은
-            기계어에 가깝기 때문에 <strong>저급 언어</strong>로 분류된다.
-          </p>
-        </div>
-        <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:80px;">
-          <!-- 저급 언어 경로 -->
-          <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
-            <div class="fc-box" style="background:#fef3c7;border:2px solid #f59e0b;color:#92400e;min-width:160px;text-align:center;">저급 언어</div>
-            <div class="fc-arrow">↓</div>
-            <div style="background:var(--s-100);border:1px solid var(--s-200);border-radius:8px;padding:6px 20px;font-size:12px;font-weight:700;color:var(--s-500);">어셈블러</div>
-            <div class="fc-arrow">↓</div>
-          </div>
-          <!-- 고급 언어 경로 -->
-          <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
-            <div class="fc-box" style="background:var(--g-pale);border:2px solid var(--g-main);color:var(--g-dark);min-width:220px;text-align:center;">고급 언어 (C, C++, Java, Python)</div>
-            <div class="fc-arrow">↓</div>
-            <div style="background:var(--s-100);border:1px solid var(--s-200);border-radius:8px;padding:6px 20px;font-size:12px;font-weight:700;color:var(--s-500);text-align:center;">컴파일러 또는<br>인터프리터</div>
-            <div class="fc-arrow">↓</div>
-          </div>
-        </div>
-        <!-- 기계어 & 하드웨어 (공통) -->
-        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding-bottom:12px;">
-          <div class="fc-box" style="background:var(--s-200);border:2px solid var(--s-400);color:var(--s-700);min-width:200px;text-align:center;">기계어</div>
-          <div class="fc-arrow" style="font-size:22px;">↓</div>
-          <div class="fc-box" style="background:linear-gradient(135deg,var(--g-dark),var(--g-main));color:#fff;min-width:200px;text-align:center;">하드웨어</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══════════════════════════════════ SLIDE 6: C언어 소개 ══════ -->
-    <div class="slide" id="s6">
       <div class="slide-header">
         <div class="header-bar"></div>
         <div>
@@ -1140,8 +1136,8 @@
       </div>
     </div>
 
-    <!-- ══════════════════════════════════ SLIDE 7: 언어 분류 상세 ══════ -->
-    <div class="slide" id="s7">
+    <!-- ══════════════════════════════════ SLIDE 6: 언어 분류 상세 ══════ -->
+    <div class="slide" id="s6">
       <div class="slide-header">
         <div class="header-bar"></div>
         <div>
@@ -1199,39 +1195,114 @@
         </div>
 
       </div>
-        <!-- PDF 11페이지: 고급 언어 종류 -->
-        <div style="margin-top:14px;">
-          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--g-main);text-transform:uppercase;margin-bottom:8px;">고급 언어의 종류</div>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
-            <div style="background:var(--white);border:1px solid var(--s-200);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow-sm);">
-              <div style="font-size:11px;font-weight:900;color:var(--g-dark);font-family:'JetBrains Mono',monospace;margin-bottom:4px;">FORTRAN</div>
-              <div style="font-size:11px;color:var(--s-500);line-height:1.6;">1950년대 최초의 고급 언어. 수치 계산·과학 기술 계산에 특화.</div>
-            </div>
-            <div style="background:var(--white);border:1px solid var(--s-200);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow-sm);">
-              <div style="font-size:11px;font-weight:900;color:var(--g-dark);font-family:'JetBrains Mono',monospace;margin-bottom:4px;">COBOL</div>
-              <div style="font-size:11px;color:var(--s-500);line-height:1.6;">1959년. 비즈니스 사무 처리용. 구어체 문장 형태로 기술.</div>
-            </div>
-            <div style="background:var(--white);border:1px solid var(--s-200);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow-sm);">
-              <div style="font-size:11px;font-weight:900;color:var(--g-dark);font-family:'JetBrains Mono',monospace;margin-bottom:4px;">Python</div>
-              <div style="font-size:11px;color:var(--s-500);line-height:1.6;">1991년 귀도 반 로섬. 인터프리트형. AI·데이터 과학 분야에 널리 사용.</div>
-            </div>
-            <div style="background:var(--g-pale);border:1px solid var(--g-light);border-radius:12px;padding:12px 14px;">
-              <div style="font-size:11px;font-weight:900;color:var(--g-dark);font-family:'JetBrains Mono',monospace;margin-bottom:4px;">C</div>
-              <div style="font-size:11px;color:var(--g-main);line-height:1.6;">1970년대 초 데니스 리치. UNIX 운영체제를 위해 AT&amp;T 벨 연구소에서 개발.</div>
-            </div>
-            <div style="background:var(--white);border:1px solid var(--s-200);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow-sm);">
-              <div style="font-size:11px;font-weight:900;color:var(--g-dark);font-family:'JetBrains Mono',monospace;margin-bottom:4px;">C++</div>
-              <div style="font-size:11px;color:var(--s-500);line-height:1.6;">1983년 스트로스트럽. C에 클래스·객체지향 개념 추가.</div>
-            </div>
-            <div style="background:var(--white);border:1px solid var(--s-200);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow-sm);">
-              <div style="font-size:11px;font-weight:900;color:var(--g-dark);font-family:'JetBrains Mono',monospace;margin-bottom:4px;">Java</div>
-              <div style="font-size:11px;color:var(--s-500);line-height:1.6;">1995년 제임스 고슬링. 선 마이크로시스템. 객체 지향 언어.</div>
+      <!-- PDF 11페이지: 고급 언어 종류 -->
+      <div style="margin-top:14px;">
+        <div
+          style="font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--g-main);text-transform:uppercase;margin-bottom:8px;">
+          고급 언어의 종류</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+          <div
+            style="background:var(--white);border:1px solid var(--s-200);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow-sm);">
+            <div
+              style="font-size:11px;font-weight:900;color:var(--g-dark);font-family:'JetBrains Mono',monospace;margin-bottom:4px;">
+              FORTRAN</div>
+            <div style="font-size:11px;color:var(--s-500);line-height:1.6;">1950년대 최초의 고급 언어. 수치 계산·과학 기술 계산에 특화.</div>
+          </div>
+          <div
+            style="background:var(--white);border:1px solid var(--s-200);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow-sm);">
+            <div
+              style="font-size:11px;font-weight:900;color:var(--g-dark);font-family:'JetBrains Mono',monospace;margin-bottom:4px;">
+              COBOL</div>
+            <div style="font-size:11px;color:var(--s-500);line-height:1.6;">1959년. 비즈니스 사무 처리용. 구어체 문장 형태로 기술.</div>
+          </div>
+          <div
+            style="background:var(--white);border:1px solid var(--s-200);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow-sm);">
+            <div
+              style="font-size:11px;font-weight:900;color:var(--g-dark);font-family:'JetBrains Mono',monospace;margin-bottom:4px;">
+              Python</div>
+            <div style="font-size:11px;color:var(--s-500);line-height:1.6;">1991년 귀도 반 로섬. 인터프리트형. AI·데이터 과학 분야에 널리 사용.
             </div>
           </div>
+          <div style="background:var(--g-pale);border:1px solid var(--g-light);border-radius:12px;padding:12px 14px;">
+            <div
+              style="font-size:11px;font-weight:900;color:var(--g-dark);font-family:'JetBrains Mono',monospace;margin-bottom:4px;">
+              C</div>
+            <div style="font-size:11px;color:var(--g-main);line-height:1.6;">1970년대 초 데니스 리치. UNIX 운영체제를 위해 AT&amp;T 벨
+              연구소에서 개발.</div>
+          </div>
+          <div
+            style="background:var(--white);border:1px solid var(--s-200);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow-sm);">
+            <div
+              style="font-size:11px;font-weight:900;color:var(--g-dark);font-family:'JetBrains Mono',monospace;margin-bottom:4px;">
+              C++</div>
+            <div style="font-size:11px;color:var(--s-500);line-height:1.6;">1983년 스트로스트럽. C에 클래스·객체지향 개념 추가.</div>
+          </div>
+          <div
+            style="background:var(--white);border:1px solid var(--s-200);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow-sm);">
+            <div
+              style="font-size:11px;font-weight:900;color:var(--g-dark);font-family:'JetBrains Mono',monospace;margin-bottom:4px;">
+              Java</div>
+            <div style="font-size:11px;color:var(--s-500);line-height:1.6;">1995년 제임스 고슬링. 선 마이크로시스템. 객체 지향 언어.</div>
+          </div>
         </div>
+      </div>
     </div>
 
-    <!-- ══════════════════════════════════ SLIDE 7: C언어 특징 ══════ -->
+    <!-- ══════════════════════════════════ SLIDE 7: 저급 언어와 고급 언어 ══════ -->
+    <div class="slide" id="s7">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div>
+          <div class="header-label">Language Level</div>
+          <h1 class="header-h1"><span>저급 언어</span>와 고급 언어</h1>
+        </div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:14px;">
+        <div class="card">
+          <p style="font-size:13.5px;color:var(--s-700);line-height:1.8;">
+            이들을 <strong>고급 언어</strong>라고 부르는 이유는, 이 언어들의 구성이 기계어보다는
+            <strong>인간의 언어에 가깝기</strong> 때문이다. 이와는 반대로 <strong>어셈블리 언어</strong> 등은
+            기계어에 가깝기 때문에 <strong>저급 언어</strong>로 분류된다.
+          </p>
+        </div>
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:80px;">
+          <!-- 저급 언어 경로 -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+            <div class="fc-box"
+              style="background:#fef3c7;border:2px solid #f59e0b;color:#92400e;min-width:160px;text-align:center;">저급 언어
+            </div>
+            <div class="fc-arrow">↓</div>
+            <div
+              style="background:var(--s-100);border:1px solid var(--s-200);border-radius:8px;padding:6px 20px;font-size:12px;font-weight:700;color:var(--s-500);">
+              어셈블러</div>
+            <div class="fc-arrow">↓</div>
+          </div>
+          <!-- 고급 언어 경로 -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+            <div class="fc-box"
+              style="background:var(--g-pale);border:2px solid var(--g-main);color:var(--g-dark);min-width:220px;text-align:center;">
+              고급 언어 (C, C++, Java, Python)</div>
+            <div class="fc-arrow">↓</div>
+            <div
+              style="background:var(--s-100);border:1px solid var(--s-200);border-radius:8px;padding:6px 20px;font-size:12px;font-weight:700;color:var(--s-500);text-align:center;">
+              컴파일러 또는<br>인터프리터</div>
+            <div class="fc-arrow">↓</div>
+          </div>
+        </div>
+        <!-- 기계어 & 하드웨어 (공통) -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding-bottom:12px;">
+          <div class="fc-box"
+            style="background:var(--s-200);border:2px solid var(--s-400);color:var(--s-700);min-width:200px;text-align:center;">
+            기계어</div>
+          <div class="fc-arrow" style="font-size:22px;">↓</div>
+          <div class="fc-box"
+            style="background:linear-gradient(135deg,var(--g-dark),var(--g-main));color:#fff;min-width:200px;text-align:center;">
+            하드웨어</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════ SLIDE 8: C언어 특징 ══════ -->
     <div class="slide" id="s8">
       <div class="slide-header">
         <div class="header-bar"></div>
@@ -1275,7 +1346,7 @@
       </div>
     </div>
 
-    <!-- ══════════════════════════════════ SLIDE 8: 단점 & 미래 ══════ -->
+    <!-- ══════════════════════════════════ SLIDE 9: 단점 & 미래 ══════ -->
     <div class="slide" id="s9">
       <div class="slide-header">
         <div class="header-bar"></div>
@@ -1658,7 +1729,9 @@
       <i class="fa-solid fa-chevron-left"></i>
     </button>
     <nav class="dot-nav" id="dotNav" role="tablist" aria-label="슬라이드 목록"></nav>
-    <span style="font-size:12px;font-weight:700;color:var(--s-500);font-variant-numeric:tabular-nums;letter-spacing:.02em;min-width:44px;text-align:center;"><span id="navCurNum">1</span> / <span id="navTotNum">14</span></span>
+    <span
+      style="font-size:12px;font-weight:700;color:var(--s-500);font-variant-numeric:tabular-nums;letter-spacing:.02em;min-width:44px;text-align:center;"><span
+        id="navCurNum">1</span> / <span id="navTotNum">14</span></span>
     <button class="nav-btn" id="btn-next" aria-label="다음">
       <i class="fa-solid fa-chevron-right"></i>
     </button>
