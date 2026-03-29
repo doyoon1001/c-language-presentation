@@ -231,9 +231,16 @@
 
     iframe {
       width: 100vw;
-      height: 100vh;
+      height: calc(100vh - 36px);
+      margin-top: 36px;
       border: none;
       display: block;
+      transition: margin-top .4s ease, height .4s ease;
+    }
+
+    iframe.topbar-hidden {
+      margin-top: 0;
+      height: 100vh;
     }
   </style>
 </head>
@@ -329,11 +336,16 @@
 
     // ── 상단 바 자동 숨김 ──
     const topbar = document.getElementById('topbar');
+    const slideFrame = document.getElementById('slideFrame');
     let hideTimer;
     document.addEventListener('mousemove', () => {
       topbar.classList.remove('hidden');
+      slideFrame.classList.remove('topbar-hidden');
       clearTimeout(hideTimer);
-      hideTimer = setTimeout(() => topbar.classList.add('hidden'), 3000);
+      hideTimer = setTimeout(() => {
+        topbar.classList.add('hidden');
+        slideFrame.classList.add('topbar-hidden');
+      }, 3000);
     });
 
     // ── 전체화면 ──
@@ -349,10 +361,9 @@
 
     // ── 키보드 이벤트 iframe 전달 ──
     document.addEventListener('keydown', (e) => {
-      const iframe = document.getElementById('slideFrame');
-      if (!iframe.src) return;
+      if (!slideFrame.src) return;
       try {
-        iframe.contentWindow.dispatchEvent(new KeyboardEvent('keydown', {
+        slideFrame.contentWindow.dispatchEvent(new KeyboardEvent('keydown', {
           key: e.key, bubbles: true
         }));
       } catch (err) { }
