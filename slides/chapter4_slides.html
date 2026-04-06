@@ -364,7 +364,7 @@
 
 <body>
 
-  <div class="progress-bar" role="progressbar" aria-valuemin="1" aria-valuemax="7" aria-valuenow="1">
+  <div class="progress-bar" role="progressbar" aria-valuemin="1" aria-valuemax="8" aria-valuenow="1">
     <div class="progress-fill" id="progressFill"></div>
   </div>
 
@@ -754,7 +754,78 @@
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════ SLIDE 6: 마무리 ═══ -->
+    <!-- ═══════════════════════════════════════ SLIDE 6: 느낀점 ═══ -->
+    <div class="slide" id="s6">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div>
+          <div class="header-label">Reflections</div>
+          <h1 class="header-h1">팀원별 <span>느낀점</span></h1>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;flex:1;align-content:center;">
+
+        <!-- 김도윤 -->
+        <div style="background:#fff;border:1px solid var(--s-200);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow-sm);border-top:4px solid var(--g-main);display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:38px;height:38px;border-radius:50%;background:var(--g-pale);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:var(--g-main);font-family:'JetBrains Mono',monospace;flex-shrink:0;">김</div>
+            <div>
+              <div style="font-size:15px;font-weight:900;color:var(--s-900);">김도윤</div>
+              <div style="font-size:10px;font-weight:700;color:var(--g-main);letter-spacing:.08em;">팀 장</div>
+            </div>
+          </div>
+          <p style="font-size:13px;color:var(--s-700);line-height:1.85;">
+            이번 과제를 통해 <strong>math.h</strong> 라이브러리를 처음 활용해 보았는데, 직접 π 값을 정의하지 않아도 <strong>M_PI</strong> 상수 하나로 정확한 계산이 가능하다는 점이 인상적이었습니다. 간단한 코드일수록 기초가 얼마나 중요한지 다시 한번 느꼈습니다.
+          </p>
+        </div>
+
+        <!-- 김준영 -->
+        <div style="background:#fff;border:1px solid var(--s-200);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow-sm);border-top:4px solid var(--red);display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:38px;height:38px;border-radius:50%;background:#ffe4e6;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:var(--red);font-family:'JetBrains Mono',monospace;flex-shrink:0;">김</div>
+            <div>
+              <div style="font-size:15px;font-weight:900;color:var(--s-900);">김준영</div>
+              <div style="font-size:10px;font-weight:700;color:var(--red);letter-spacing:.08em;">팀 원</div>
+            </div>
+          </div>
+          <p style="font-size:13px;color:var(--s-700);line-height:1.85;">
+            저번 계산기 프로그램에서 <strong>double</strong>형을 사용해 보았는데, 이번 과제에서 <strong>float</strong>형을 접하게 되어 두 자료형의 차이를 직접 조사해볼 수 있었습니다. 정밀도와 메모리 크기 측면에서 차이가 있다는 것을 알게 되었고, 상황에 맞는 자료형을 선택하는 것이 중요하다는 점을 배웠습니다.
+          </p>
+        </div>
+
+        <!-- 장원준 -->
+        <div style="background:#fff;border:1px solid var(--s-200);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow-sm);border-top:4px solid var(--blue);display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:38px;height:38px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:var(--blue);font-family:'JetBrains Mono',monospace;flex-shrink:0;">장</div>
+            <div>
+              <div style="font-size:15px;font-weight:900;color:var(--s-900);">장원준</div>
+              <div style="font-size:10px;font-weight:700;color:var(--blue);letter-spacing:.08em;">팀 원</div>
+            </div>
+          </div>
+          <p style="font-size:13px;color:var(--s-700);line-height:1.85;">
+            발표를 준비하면서 코드의 흐름을 직접 설명해야 하니 각 줄의 의미를 더 꼼꼼히 이해하게 되었습니다. <strong>printf</strong> 안에서 수식을 바로 계산하는 방식이 간결하다는 것도 발표 준비를 통해 새롭게 깨달았습니다.
+          </p>
+        </div>
+
+        <!-- 이윤호 -->
+        <div style="background:#fff;border:1px solid var(--s-200);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow-sm);border-top:4px solid var(--accent);display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:38px;height:38px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:var(--accent);font-family:'JetBrains Mono',monospace;flex-shrink:0;">이</div>
+            <div>
+              <div style="font-size:15px;font-weight:900;color:var(--s-900);">이윤호</div>
+              <div style="font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.08em;">팀 원</div>
+            </div>
+          </div>
+          <p style="font-size:13px;color:var(--s-700);line-height:1.85;">
+            수학 공식을 코드로 그대로 표현할 수 있다는 점이 C언어의 매력이라고 느꼈습니다. 자료 조사를 하면서 순서도를 먼저 그리고 코드를 작성하는 습관이 실수를 줄이는 데 도움이 된다는 것도 배울 수 있었습니다.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ SLIDE 7: 마무리 ═══ -->
     <div class="slide" id="s6" style="padding:0;overflow:hidden;">
       <div style="position:relative;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:60px;overflow:hidden;">
         <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0f172a 0%,#1a3d2b 50%,#2d6a4f 100%);z-index:0;"></div>
@@ -813,7 +884,7 @@
       <i class="fa-solid fa-chevron-left"></i>
     </button>
     <nav class="dot-nav" id="dotNav" role="tablist" aria-label="슬라이드 목록"></nav>
-    <span style="font-size:12px;font-weight:700;color:var(--s-500);font-variant-numeric:tabular-nums;letter-spacing:.02em;min-width:44px;text-align:center;"><span id="navCurNum">1</span> / <span id="navTotNum">7</span></span>
+    <span style="font-size:12px;font-weight:700;color:var(--s-500);font-variant-numeric:tabular-nums;letter-spacing:.02em;min-width:44px;text-align:center;"><span id="navCurNum">1</span> / <span id="navTotNum">8</span></span>
     <button class="nav-btn" id="btn-next" aria-label="다음">
       <i class="fa-solid fa-chevron-right"></i>
     </button>
