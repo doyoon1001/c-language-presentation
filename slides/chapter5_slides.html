@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>제5장 배열과 반복문 — 성적 평균 계산</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --g-dark: #1a3d2b;
+      --g-main: #2d6a4f;
+      --g-mid: #40916c;
+      --g-light: #74c69d;
+      --g-pale: #d8f3dc;
+      --s-900: #0f172a;
+      --s-800: #1e293b;
+      --s-700: #334155;
+      --s-500: #64748b;
+      --s-300: #cbd5e1;
+      --s-200: #e2e8f0;
+      --s-100: #f1f5f9;
+      --s-50: #f8fafc;
+      --white: #ffffff;
+      --accent: #f59e0b;
+      --red: #be123c;
+      --blue: #1d4ed8;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, .06);
+      --shadow-md: 0 4px 20px rgba(0, 0, 0, .10);
+      --shadow-lg: 0 8px 40px rgba(0, 0, 0, .14);
+      --radius: 16px;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--s-50);
+    }
+
+    /* ─── SLIDE ENGINE ─── */
+    .deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 52px 72px 50px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(50px);
+      transition: opacity .4s cubic-bezier(.4, 0, .2, 1), transform .4s cubic-bezier(.4, 0, .2, 1);
+      background: var(--s-50);
+      overflow: hidden;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(0);
+    }
+
+    .slide.exit {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+
+    /* ─── PROGRESS BAR ─── */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: rgba(0, 0, 0, .15);
+      z-index: 1000;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4F46E5, #7C3AED);
+      width: 0%;
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: width;
+    }
+
+    /* ─── NAV ─── */
+    .nav {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--white);
+      border: 1px solid var(--s-200);
+      border-radius: 999px;
+      padding: 8px 18px;
+      box-shadow: var(--shadow-md);
+      z-index: 100;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .nav.visible {
+      opacity: 1;
+    }
+
+    .nav-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: var(--s-100);
+      color: var(--s-700);
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s, color .2s;
+    }
+
+    .nav-btn:hover {
+      background: var(--g-main);
+      color: #fff;
+    }
+
+    .nav-btn:disabled {
+      opacity: .3;
+      cursor: not-allowed;
+    }
+
+    .dot-nav {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--s-300);
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .dot:hover { transform: scale(1.4); background: var(--g-light); }
+    .dot[aria-selected="true"] { transform: scale(1.4); background: var(--g-main); }
+
+    /* ─── TITLE SLIDE ─── */
+    .title-slide {
+      padding: 0 !important;
+      background: #000 !important;
+      overflow: hidden !important;
+    }
+
+    /* ─── SLIDE HEADER ─── */
+    .slide-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 28px;
+      flex-shrink: 0;
+    }
+
+    .header-bar {
+      width: 7px;
+      border-radius: 4px;
+      background: var(--g-main);
+      flex-shrink: 0;
+      align-self: stretch;
+    }
+
+    .header-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--g-mid);
+      margin-bottom: 5px;
+    }
+
+    .header-h1 {
+      font-size: clamp(24px, 3vw, 40px);
+      font-weight: 900;
+      color: var(--s-900);
+      line-height: 1.15;
+    }
+
+    .header-h1 span {
+      color: var(--g-main);
+    }
+
+    /* ─── CARDS ─── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--s-200);
+      border-radius: var(--radius);
+      padding: 22px 26px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--g-main);
+      margin-bottom: 10px;
+    }
+
+    .card p,
+    .card li {
+      font-size: 13px;
+      color: var(--s-700);
+      line-height: 1.75;
+    }
+
+    .card ul {
+      padding-left: 18px;
+    }
+
+    .card-dark {
+      background: linear-gradient(135deg, var(--g-dark), var(--g-main));
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      padding: 22px 26px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-dark .card-title {
+      color: var(--g-light);
+    }
+
+    .card-dark p,
+    .card-dark li {
+      color: rgba(255, 255, 255, .88);
+    }
+
+    /* ─── LAYOUT ─── */
+    .cols {
+      display: flex;
+      gap: 20px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ─── BADGE ─── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--g-pale);
+      color: var(--g-dark);
+    }
+
+    /* ─── PERSON CARD ─── */
+    .person-panel {
+      background: var(--g-dark);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--g-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      color: #fff;
+    }
+
+    .person-name {
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .person-sub {
+      font-size: 12px;
+      color: var(--g-light);
+    }
+
+    .person-desc {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .65);
+      font-style: italic;
+    }
+
+    /* ─── CODE BLOCK ─── */
+    .code-block {
+      background: #0f172a;
+      color: #7ee787;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(11px, 1.1vw, 13px);
+      border-radius: 12px;
+      padding: 16px 20px;
+      line-height: 1.75;
+      overflow: auto;
+    }
+
+    .kw  { color: #ff7b72; }
+    .cm  { color: #8b949e; }
+    .str { color: #a5d6ff; }
+    .num { color: #79c0ff; }
+    .fn  { color: #d2a8ff; }
+
+    /* ─── UTILITY ─── */
+    .flex1 { flex: 1; }
+    .flex-col { display: flex; flex-direction: column; }
+    .gap-4 { gap: 16px; }
+    .gap-3 { gap: 12px; }
+    .mt-2  { margin-top: 8px; }
+    .mt-3  { margin-top: 12px; }
+
+    strong { color: var(--g-dark); }
+    em { color: var(--s-500); font-style: normal; font-weight: 600; }
+  </style>
+</head>
+
+<body>
+
+  <div class="progress-bar" role="progressbar" aria-valuemin="1" aria-valuemax="8" aria-valuenow="1">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <div class="deck" id="deck">
+
+    <!-- ═══════════════════════════════════════ SLIDE 0: TITLE ═══ -->
+    <div class="slide active title-slide" id="s0">
+      <div style="position:relative;width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:80px;">
+
+        <!-- BG Gradient -->
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0f172a 0%,#1a3d2b 45%,#2d6a4f 100%);z-index:0;"></div>
+
+        <!-- Decorative circles -->
+        <div style="position:absolute;right:-80px;top:-80px;width:400px;height:400px;border-radius:50%;background:rgba(116,198,157,.07);z-index:1;"></div>
+        <div style="position:absolute;right:60px;bottom:60px;width:220px;height:220px;border-radius:50%;background:rgba(45,106,79,.3);z-index:1;"></div>
+        <div style="position:absolute;left:0;top:0;width:4px;height:100%;background:linear-gradient(to bottom,#3b82f6,transparent);z-index:2;"></div>
+
+        <!-- Grid lines -->
+        <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px;z-index:1;"></div>
+
+        <!-- TOP -->
+        <div style="position:relative;z-index:10;margin-top:40px;">
+          <div style="width:72px;height:7px;background:#3b82f6;border-radius:4px;margin-bottom:24px;"></div>
+          <div style="display:inline-block;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);border-radius:999px;padding:5px 16px;margin-bottom:18px;">
+            <span style="font-size:11px;font-weight:700;letter-spacing:.18em;color:#93c5fd;text-transform:uppercase;">C언어 EXPRESS · Chapter 05</span>
+          </div>
+          <h1 style="font-size:clamp(34px,5vw,64px);font-weight:900;color:#fff;line-height:1.12;letter-spacing:-.02em;margin:0 0 18px;">
+            배열과 반복문 —<br><span style="color:#60a5fa;">성적 평균 계산</span>
+          </h1>
+          <p style="font-size:clamp(12px,1.3vw,18px);color:#94a3b8;letter-spacing:.18em;text-transform:uppercase;font-weight:300;">
+            Array · Loop · Score Input · Average Calculation
+          </p>
+        </div>
+
+        <!-- BOTTOM -->
+        <div style="position:relative;z-index:10;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px;">
+          <div>
+            <span style="display:block;color:#60a5fa;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:5px;">TEAM NAME</span>
+            <h2 style="font-size:clamp(20px,2.8vw,36px);font-weight:700;color:#fff;font-style:italic;margin:0;">반대표와 아이들</h2>
+          </div>
+          <div style="text-align:right;">
+            <div style="margin-bottom:16px;">
+              <span style="display:block;color:#9ca3af;font-size:10px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:5px;">Team Members</span>
+              <p style="font-size:clamp(12px,1.2vw,17px);font-weight:500;color:#fff;margin:0;">
+                김도윤 <span style="color:#4b5563;margin:0 4px;">|</span>
+                김준영 <span style="color:#4b5563;margin:0 4px;">|</span>
+                장원준 <span style="color:#4b5563;margin:0 4px;">|</span>
+                이윤호
+              </p>
+            </div>
+            <p style="font-size:clamp(11px,1vw,15px);color:#6b7280;font-family:'JetBrains Mono',monospace;margin:0;">2026 · 04 · 19</p>
+          </div>
+        </div>
+
+        <!-- Deco letter -->
+        <div style="position:absolute;right:80px;top:50%;transform:translateY(-50%);font-size:clamp(80px,13vw,170px);font-weight:900;color:rgba(255,255,255,.04);font-family:'JetBrains Mono',monospace;pointer-events:none;user-select:none;z-index:2;">C</div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ SLIDE 1: 목차 ═══ -->
+    <div class="slide" id="s1">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div>
+          <div class="header-label">Contents</div>
+          <h1 class="header-h1">목 차</h1>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;flex:1;justify-content:center;">
+
+        <!-- 1: 팀 소개 -->
+        <div style="display:flex;align-items:center;gap:20px;background:linear-gradient(135deg,var(--g-dark),var(--g-main));border-radius:14px;padding:14px 26px;">
+          <div style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:var(--g-light);flex-shrink:0;">1</div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+            <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;">
+              <span style="font-size:16px;font-weight:900;color:#fff;">팀 소개</span>
+              <span style="font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--g-light);text-transform:uppercase;">Team Introduction</span>
+            </div>
+            <span style="font-size:11px;color:rgba(255,255,255,.55);">반대표와 아이들 — 팀장 김도윤</span>
+          </div>
+        </div>
+
+        <!-- 2: 코드 소개 및 설명 -->
+        <div style="display:flex;align-items:center;gap:20px;background:var(--white);border:1px solid var(--s-200);border-radius:14px;padding:14px 26px;box-shadow:var(--shadow-sm);">
+          <div style="width:38px;height:38px;border-radius:50%;background:var(--g-pale);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:var(--g-main);flex-shrink:0;">2</div>
+          <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;">
+            <span style="font-size:16px;font-weight:900;color:var(--s-900);">코드 소개 및 설명</span>
+            <span style="font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--g-mid);text-transform:uppercase;">Code Explanation</span>
+            <span style="font-size:11px;color:var(--s-500);">문제 정의 · 순서도 제작 · 코드 리뷰 · 실행 결과</span>
+          </div>
+        </div>
+
+        <!-- 3: 마무리 -->
+        <div style="display:flex;align-items:center;gap:20px;background:var(--white);border:1px solid var(--s-200);border-radius:14px;padding:14px 26px;box-shadow:var(--shadow-sm);">
+          <div style="width:38px;height:38px;border-radius:50%;background:var(--g-pale);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:var(--g-main);flex-shrink:0;">3</div>
+          <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;">
+            <span style="font-size:16px;font-weight:900;color:var(--s-900);">마무리 및 질의응답</span>
+            <span style="font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--g-mid);text-transform:uppercase;">Closing &amp; Q&amp;A</span>
+            <span style="font-size:11px;color:var(--s-500);">발표 요약 · 경청 감사 · 질문 환영</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ SLIDE 2: 팀원 소개 ═══ -->
+    <div class="slide" id="s2">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div>
+          <div class="header-label">Team Introduction</div>
+          <h1 class="header-h1">팀 원 <span>소개</span></h1>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;flex:1;align-content:center;">
+
+        <!-- 팀장 -->
+        <div class="person-panel" style="background:linear-gradient(160deg,#0f2027,#203a43,#1a3d2b);border:2px solid var(--g-mid);">
+          <div class="avatar" style="background:linear-gradient(135deg,var(--g-mid),var(--g-main));font-family:'JetBrains Mono',monospace;">김</div>
+          <div class="person-name">김도윤</div>
+          <div class="person-sub">
+            <i class="fa-solid fa-crown" style="margin-right:4px;color:#fbbf24;"></i>팀 장
+          </div>
+          <div class="person-desc">PPT 제작</div>
+        </div>
+
+        <!-- 자료조사 1 -->
+        <div class="person-panel">
+          <div class="avatar" style="font-family:'JetBrains Mono',monospace;">김</div>
+          <div class="person-name">김준영</div>
+          <div class="person-sub">
+            <i class="fa-solid fa-magnifying-glass" style="margin-right:4px;"></i>팀 원
+          </div>
+          <div class="person-desc">자료 조사</div>
+        </div>
+
+        <!-- 발표 -->
+        <div class="person-panel">
+          <div class="avatar" style="font-family:'JetBrains Mono',monospace;">장</div>
+          <div class="person-name">장원준</div>
+          <div class="person-sub">
+            <i class="fa-solid fa-bullhorn" style="margin-right:4px;color:#f87171;"></i>팀 원
+          </div>
+          <div class="person-desc">발 표</div>
+        </div>
+
+        <!-- 자료조사 2 -->
+        <div class="person-panel">
+          <div class="avatar" style="font-family:'JetBrains Mono',monospace;">이</div>
+          <div class="person-name">이윤호</div>
+          <div class="person-sub">
+            <i class="fa-solid fa-magnifying-glass" style="margin-right:4px;"></i>팀 원
+          </div>
+          <div class="person-desc">자료 조사</div>
+        </div>
+
+      </div>
+
+      <div style="margin-top:18px;background:var(--g-pale);border-radius:12px;padding:13px 20px;display:flex;align-items:center;gap:12px;">
+        <i class="fa-solid fa-people-group" style="color:var(--g-main);font-size:18px;"></i>
+        <p style="font-size:13px;color:var(--g-dark);">팀명 <strong>반대표와 아이들</strong> — 인덕대학교 C언어 팀 프로젝트 · 2026년도 1학기</p>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ SLIDE 3: 문제 정의 ═══ -->
+    <div class="slide" id="s3">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div>
+          <div class="header-label">Problem Definition</div>
+          <h1 class="header-h1">문제 <span>정의</span></h1>
+        </div>
+      </div>
+
+      <div class="cols" style="align-items:stretch;">
+
+        <!-- 왼쪽: 문제 개요 -->
+        <div class="col" style="flex:1.1;">
+          <div class="card-dark" style="flex:1;">
+            <div class="card-title"><i class="fa-solid fa-circle-question"></i> 문제 목표</div>
+            <p style="font-size:14px;color:rgba(255,255,255,.9);line-height:1.9;">
+              사용자로부터 <strong style="color:var(--g-light);">여러 과목의 점수</strong>를 입력받아<br>
+              <strong style="color:var(--g-light);">성적 평균</strong>을 계산한 뒤 화면에 출력하는 프로그램을 작성한다.
+            </p>
+            <div style="margin-top:18px;background:rgba(255,255,255,.07);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="font-size:18px;">📥</span>
+                <span style="font-size:13px;color:rgba(255,255,255,.85);">각 과목 점수 입력 → <strong style="color:#60a5fa;">합계 누적</strong></span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="font-size:18px;">➗</span>
+                <span style="font-size:13px;color:rgba(255,255,255,.85);">평균 = <strong style="color:#60a5fa;">합계 ÷ 과목 수</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-file-code"></i> 사용 헤더</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;align-items:center;gap:12px;background:var(--s-50);border-radius:8px;padding:10px 14px;">
+                <code style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#d2a8ff;font-weight:700;">#include &lt;stdio.h&gt;</code>
+                <span style="font-size:12px;color:var(--s-500);">— printf, scanf 사용</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 오른쪽: 입력/처리/출력 -->
+        <div class="col" style="flex:0.9;">
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-arrow-right-to-bracket"></i> 입력 (Input)</div>
+            <p>과목 수 <strong>n</strong>과 각 과목의 <strong>점수</strong>를 반복 입력</p>
+            <div style="margin-top:10px;background:var(--g-pale);border-radius:8px;padding:10px 14px;">
+              <code style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--g-dark);">scanf("%d", &score);</code>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-gears"></i> 처리 (Process)</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div style="background:var(--s-50);border-left:3px solid var(--g-main);border-radius:0 8px 8px 0;padding:8px 12px;">
+                <p style="font-size:12px;color:var(--s-700);margin-bottom:2px;">합계 누적</p>
+                <code style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--s-900);">sum += score</code>
+              </div>
+              <div style="background:var(--s-50);border-left:3px solid var(--g-mid);border-radius:0 8px 8px 0;padding:8px 12px;">
+                <p style="font-size:12px;color:var(--s-700);margin-bottom:2px;">평균 계산</p>
+                <code style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--s-900);">avg = sum / n</code>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-arrow-right-from-bracket"></i> 출력 (Output)</div>
+            <p>계산된 성적 평균을 <strong>printf</strong>로 화면에 출력</p>
+            <div style="margin-top:10px;background:var(--g-pale);border-radius:8px;padding:10px 14px;">
+              <code style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--g-dark);">성적 평균: %.2f</code>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ SLIDE 4: 순서도 ═══ -->
+    <div class="slide" id="s4">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div>
+          <div class="header-label">Flowchart</div>
+          <h1 class="header-h1">순 서 <span>도</span></h1>
+        </div>
+      </div>
+
+      <div class="cols" style="align-items:stretch;">
+
+        <!-- 순서도 -->
+        <div class="col" style="flex:1;align-items:center;justify-content:center;display:flex;flex-direction:column;gap:0;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%;max-width:320px;">
+
+            <!-- 시작 -->
+            <div style="background:linear-gradient(135deg,var(--g-dark),var(--g-main));color:#fff;border-radius:999px;padding:10px 36px;font-size:15px;font-weight:900;box-shadow:var(--shadow-md);">시 작</div>
+            <div style="width:2px;height:18px;background:var(--s-300);"></div>
+
+            <!-- 변수 초기화 -->
+            <div style="background:#fff;border:2px solid var(--s-300);border-radius:10px;padding:9px 24px;font-size:13px;font-weight:700;color:var(--s-900);box-shadow:var(--shadow-sm);text-align:center;width:100%;">
+              <div style="font-size:10px;color:var(--s-500);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;">초기화</div>
+              sum = 0, i = 0
+            </div>
+            <div style="width:2px;height:18px;background:var(--s-300);"></div>
+
+            <!-- 과목 수 입력 -->
+            <div style="background:#fff;border:2px solid var(--g-main);border-radius:10px;padding:9px 24px;font-size:13px;font-weight:700;color:var(--s-900);box-shadow:var(--shadow-sm);text-align:center;width:100%;">
+              <div style="font-size:10px;color:var(--g-mid);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;">입력</div>
+              과목 수 <code style="font-family:'JetBrains Mono',monospace;color:var(--g-dark);">n</code> 입력
+            </div>
+            <div style="width:2px;height:18px;background:var(--s-300);"></div>
+
+            <!-- 반복 조건 -->
+            <div style="background:#fff;border:2px solid var(--blue);border-radius:10px;padding:9px 24px;font-size:13px;font-weight:700;color:var(--s-900);box-shadow:var(--shadow-sm);text-align:center;width:100%;">
+              <div style="font-size:10px;color:var(--blue);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;">조건</div>
+              i &lt; n ?
+            </div>
+            <div style="width:2px;height:18px;background:var(--s-300);"></div>
+
+            <!-- 점수 입력 및 누적 -->
+            <div style="background:#fff;border:2px solid var(--blue);border-radius:10px;padding:9px 24px;font-size:13px;font-weight:700;color:var(--s-900);box-shadow:var(--shadow-sm);text-align:center;width:100%;">
+              <div style="font-size:10px;color:var(--blue);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;">처리</div>
+              점수 입력, sum += score, i++
+            </div>
+            <div style="width:2px;height:18px;background:var(--s-300);"></div>
+
+            <!-- 평균 계산 및 출력 -->
+            <div style="background:#fff;border:2px solid var(--accent);border-radius:10px;padding:9px 24px;font-size:13px;font-weight:700;color:var(--s-900);box-shadow:var(--shadow-sm);text-align:center;width:100%;">
+              <div style="font-size:10px;color:var(--accent);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;">출력</div>
+              평균 = sum / n, 화면 출력
+            </div>
+            <div style="width:2px;height:18px;background:var(--s-300);"></div>
+
+            <!-- 끝 -->
+            <div style="background:linear-gradient(135deg,var(--s-800),var(--s-900));color:#fff;border-radius:999px;padding:10px 36px;font-size:15px;font-weight:900;box-shadow:var(--shadow-md);">끝</div>
+
+          </div>
+        </div>
+
+        <!-- 설명 카드 -->
+        <div class="col" style="flex:1;gap:12px;">
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-arrow-right-to-bracket"></i> 입력 단계</div>
+            <p>과목 수 <strong>n</strong>을 먼저 입력받고, 반복문을 돌며 각 과목 점수를 <code style="font-family:'JetBrains Mono',monospace;background:var(--s-100);padding:1px 6px;border-radius:4px;font-size:12px;">scanf</code>로 입력받는다.</p>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-rotate"></i> 반복 단계 — 합계 누적</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="background:var(--g-pale);border-radius:8px;padding:10px 14px;">
+                <p style="font-size:12px;color:var(--g-dark);font-weight:700;margin-bottom:4px;">🔁 반복 조건</p>
+                <code style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--g-dark);">for (i = 0; i &lt; n; i++)</code>
+              </div>
+              <div style="background:var(--g-pale);border-radius:8px;padding:10px 14px;">
+                <p style="font-size:12px;color:var(--g-dark);font-weight:700;margin-bottom:4px;">➕ 합계 누적</p>
+                <code style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--g-dark);">sum += score</code>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-terminal"></i> 출력 단계</div>
+            <p>반복 종료 후 <strong>평균 = sum / n</strong> 계산 결과를 <code style="font-family:'JetBrains Mono',monospace;background:var(--s-100);padding:1px 6px;border-radius:4px;font-size:12px;">printf</code>로 출력한다.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ SLIDE 5: 코드 리뷰 ═══ -->
+    <div class="slide" id="s5">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div>
+          <div class="header-label">Code Review</div>
+          <h1 class="header-h1">성적 평균 <span>코드 리뷰</span></h1>
+        </div>
+      </div>
+
+      <div class="cols" style="align-items:stretch;">
+
+        <!-- 왼쪽: 코드 이미지 -->
+        <div class="col" style="flex:1.2;">
+          <div style="flex:1;border-radius:12px;overflow:hidden;box-shadow:var(--shadow-md);background:#0f172a;display:flex;align-items:center;justify-content:center;">
+            <img src="../image/성적 평균 코드.png" alt="성적 평균 코드"
+              style="width:100%;height:100%;object-fit:contain;display:block;">
+          </div>
+        </div>
+
+        <!-- 오른쪽: 설명 카드 -->
+        <div class="col" style="flex:0.9;">
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-box"></i> 변수 선언</div>
+            <p><strong>int</strong>형 변수 <strong>n</strong>(과목 수), <strong>score</strong>(점수), <strong>sum</strong>(합계), <strong>i</strong>(반복 인덱스)를 선언합니다.</p>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-keyboard"></i> 입력 처리</div>
+            <p><code style="background:var(--s-100);border-radius:4px;padding:1px 5px;font-family:'JetBrains Mono',monospace;font-size:12px;">scanf("%d", &score)</code> — 반복문 안에서 과목 점수를 순서대로 입력받습니다.</p>
+          </div>
+
+          <div class="card-dark">
+            <div class="card-title"><i class="fa-solid fa-calculator"></i> 핵심 로직</div>
+            <ul style="padding-left:16px;display:flex;flex-direction:column;gap:5px;">
+              <li style="color:rgba(255,255,255,.88);font-size:13px;"><strong style="color:var(--g-light);">for 반복문</strong> — i가 0부터 n-1까지 순회</li>
+              <li style="color:rgba(255,255,255,.88);font-size:13px;"><strong style="color:var(--g-light);">sum += score</strong> — 점수를 합계에 누적</li>
+              <li style="color:rgba(255,255,255,.88);font-size:13px;"><strong style="color:var(--g-light);">sum / n</strong> — 최종 평균 계산 후 출력</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ SLIDE 6: 실행 결과 ═══ -->
+    <div class="slide" id="s6">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div>
+          <div class="header-label">Execution Result</div>
+          <h1 class="header-h1">실 행 <span>결과</span></h1>
+        </div>
+      </div>
+
+      <div class="cols" style="align-items:stretch;">
+
+        <!-- 실행결과 이미지 -->
+        <div class="col" style="flex:1.3;">
+          <div style="flex:1;border-radius:12px;overflow:hidden;box-shadow:var(--shadow-md);background:#0f172a;display:flex;flex-direction:column;">
+            <div style="padding:10px 16px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:8px;">
+              <div style="width:10px;height:10px;border-radius:50%;background:#ff5f57;"></div>
+              <div style="width:10px;height:10px;border-radius:50%;background:#ffbd2e;"></div>
+              <div style="width:10px;height:10px;border-radius:50%;background:#28ca41;"></div>
+              <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#74c69d;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-left:8px;">Terminal — 실행 결과</span>
+            </div>
+            <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:8px;">
+              <img src="../image/성적 평균 실행결과.png" alt="성적 평균 실행결과" style="max-width:100%;max-height:100%;object-fit:contain;display:block;">
+            </div>
+          </div>
+        </div>
+
+        <!-- 오른쪽: 분석 카드 -->
+        <div class="col" style="flex:0.7;gap:14px;">
+
+          <div class="card-dark">
+            <div class="card-title"><i class="fa-solid fa-check-circle"></i> 결과 분석</div>
+            <p style="font-size:13px;color:rgba(255,255,255,.88);line-height:1.85;">
+              입력한 각 과목 점수가 반복문을 통해 누적 합산되고, 최종적으로 과목 수로 나눈 <strong style="color:var(--g-light);">성적 평균</strong>이 올바르게 출력됩니다.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-lightbulb"></i> 핵심 포인트</div>
+            <ul style="padding-left:16px;display:flex;flex-direction:column;gap:6px;">
+              <li><strong>반복문</strong>으로 여러 값을 순차 입력</li>
+              <li><strong>누적 변수</strong>(sum)로 합계를 쌓아가는 패턴</li>
+              <li>정수 나눗셈 주의 — 평균은 <strong>실수형</strong>으로 출력</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ SLIDE 7: 느낀점 ═══ -->
+    <div class="slide" id="s7">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div>
+          <div class="header-label">Reflections</div>
+          <h1 class="header-h1">팀원별 <span>느낀점</span></h1>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;flex:1;align-content:center;">
+
+        <!-- 김도윤 -->
+        <div style="background:#fff;border:1px solid var(--s-200);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow-sm);border-top:4px solid var(--g-main);display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:38px;height:38px;border-radius:50%;background:var(--g-pale);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:var(--g-main);font-family:'JetBrains Mono',monospace;flex-shrink:0;">김</div>
+            <div>
+              <div style="font-size:15px;font-weight:900;color:var(--s-900);">김도윤</div>
+              <div style="font-size:10px;font-weight:700;color:var(--g-main);letter-spacing:.08em;">팀 장</div>
+            </div>
+          </div>
+          <p style="font-size:13px;color:var(--s-700);line-height:1.85;">
+            평균을 계산할 때 <strong>3</strong>이 아닌 <strong>3.0</strong>으로 나눠야 소수점 결과가 제대로 나온다는 점이 인상적이었습니다. 정수끼리의 나눗셈은 소수점이 버려지기 때문에 <strong>float</strong>형 연산임을 명시하는 것이 중요하다는 걸 배웠습니다.
+          </p>
+        </div>
+
+        <!-- 김준영 -->
+        <div style="background:#fff;border:1px solid var(--s-200);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow-sm);border-top:4px solid var(--red);display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:38px;height:38px;border-radius:50%;background:#ffe4e6;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:var(--red);font-family:'JetBrains Mono',monospace;flex-shrink:0;">김</div>
+            <div>
+              <div style="font-size:15px;font-weight:900;color:var(--s-900);">김준영</div>
+              <div style="font-size:10px;font-weight:700;color:var(--red);letter-spacing:.08em;">팀 원</div>
+            </div>
+          </div>
+          <p style="font-size:13px;color:var(--s-700);line-height:1.85;">
+            <strong>scanf("%f %f %f", ...)</strong>처럼 서식 지정자를 나열하면 세 값을 한 줄에 공백으로 구분해 입력받을 수 있다는 점을 처음 알게 되었습니다. 자료 조사를 통해 scanf의 다양한 활용 방식을 더 깊이 이해할 수 있었습니다.
+          </p>
+        </div>
+
+        <!-- 장원준 -->
+        <div style="background:#fff;border:1px solid var(--s-200);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow-sm);border-top:4px solid var(--blue);display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:38px;height:38px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:var(--blue);font-family:'JetBrains Mono',monospace;flex-shrink:0;">장</div>
+            <div>
+              <div style="font-size:15px;font-weight:900;color:var(--s-900);">장원준</div>
+              <div style="font-size:10px;font-weight:700;color:var(--blue);letter-spacing:.08em;">팀 원</div>
+            </div>
+          </div>
+          <p style="font-size:13px;color:var(--s-700);line-height:1.85;">
+            발표를 준비하면서 코드 구조가 <strong>변수 선언 → 입력 → 계산 → 출력</strong>의 4단계로 명확하게 나뉜다는 점을 다시 확인했습니다. 짧은 코드지만 C언어 프로그램의 기본 흐름이 그대로 담겨 있어 설명하기 좋았습니다.
+          </p>
+        </div>
+
+        <!-- 이윤호 -->
+        <div style="background:#fff;border:1px solid var(--s-200);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow-sm);border-top:4px solid var(--accent);display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:38px;height:38px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:var(--accent);font-family:'JetBrains Mono',monospace;flex-shrink:0;">이</div>
+            <div>
+              <div style="font-size:15px;font-weight:900;color:var(--s-900);">이윤호</div>
+              <div style="font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.08em;">팀 원</div>
+            </div>
+          </div>
+          <p style="font-size:13px;color:var(--s-700);line-height:1.85;">
+            <strong>%.2f</strong> 서식으로 소수점 둘째 자리까지 출력되는 것을 보고 printf의 포맷 지정이 얼마나 세밀한지 느꼈습니다. 자료 조사를 하면서 <strong>float</strong>형 변수 세 개만으로도 실용적인 성적 계산기를 만들 수 있다는 점이 흥미로웠습니다.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ SLIDE 8: 마무리 ═══ -->
+    <div class="slide" id="s8" style="padding:0;overflow:hidden;">
+      <div style="position:relative;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:60px;overflow:hidden;">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0f172a 0%,#1a3d2b 50%,#2d6a4f 100%);z-index:0;"></div>
+        <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px;z-index:1;"></div>
+        <div style="position:absolute;left:-80px;bottom:-80px;width:400px;height:400px;border-radius:50%;background:rgba(116,198,157,.07);z-index:1;"></div>
+        <div style="position:absolute;right:60px;top:60px;width:200px;height:200px;border-radius:50%;background:rgba(45,106,79,.25);z-index:1;"></div>
+
+        <div style="position:relative;z-index:10;text-align:center;max-width:700px;">
+          <div style="display:inline-block;background:rgba(116,198,157,.15);border:1px solid rgba(116,198,157,.3);border-radius:999px;padding:5px 18px;margin-bottom:22px;">
+            <span style="font-size:11px;font-weight:700;letter-spacing:.18em;color:var(--g-light);text-transform:uppercase;">Chapter 05 완료</span>
+          </div>
+          <h1 style="font-size:clamp(30px,4.5vw,56px);font-weight:900;color:#fff;line-height:1.15;margin-bottom:18px;">
+            경청해 주셔서<br><span style="color:#60a5fa;">감사합니다</span>
+          </h1>
+          <p style="font-size:clamp(12px,1.2vw,16px);color:#94a3b8;margin-bottom:36px;line-height:1.8;">
+            배열과 반복문 · 성적 평균 계산 · for문 활용
+          </p>
+
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:left;margin-bottom:32px;">
+            <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:16px 18px;">
+              <div style="font-size:20px;margin-bottom:6px;">🔁</div>
+              <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;">반복문</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.55);">for문으로 점수 입력</div>
+            </div>
+            <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:16px 18px;">
+              <div style="font-size:20px;margin-bottom:6px;">➕</div>
+              <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;">누적 연산</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.55);">sum += score 패턴</div>
+            </div>
+            <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:16px 18px;">
+              <div style="font-size:20px;margin-bottom:6px;">📊</div>
+              <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;">평균 계산</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.55);">sum / n 결과 출력</div>
+            </div>
+          </div>
+
+          <div style="border-top:1px solid rgba(255,255,255,.12);padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+            <div style="text-align:left;">
+              <div style="font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px;">Team</div>
+              <div style="font-size:16px;font-weight:700;color:#fff;font-style:italic;">반대표와 아이들</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px;">Members</div>
+              <div style="font-size:13px;color:rgba(255,255,255,.7);">김도윤 · 김준영 · 장원준 · 이윤호</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /deck -->
+
+  <!-- ─── NAV ─── -->
+  <nav class="nav" id="nav">
+    <button class="nav-btn" id="btn-prev" aria-label="이전" disabled>
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <nav class="dot-nav" id="dotNav" role="tablist" aria-label="슬라이드 목록"></nav>
+    <span style="font-size:12px;font-weight:700;color:var(--s-500);font-variant-numeric:tabular-nums;letter-spacing:.02em;min-width:44px;text-align:center;"><span id="navCurNum">1</span> / <span id="navTotNum">9</span></span>
+    <button class="nav-btn" id="btn-next" aria-label="다음">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+    <button class="nav-btn" id="btn-fs" aria-label="전체화면" title="전체화면 (F)">
+      <i class="fa-solid fa-expand"></i>
+    </button>
+  </nav>
+
+  <script>
+    (() => {
+      const slides = [...document.querySelectorAll('.slide')];
+      const total = slides.length;
+      const dots = document.getElementById('dotNav');
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      const btnFs = document.getElementById('btn-fs');
+      let cur = 0, busy = false;
+
+      /* 도트 생성 */
+      slides.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.className = 'dot';
+        d.setAttribute('role', 'tab');
+        d.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+        d.setAttribute('aria-label', `슬라이드 ${i + 1}`);
+        d.addEventListener('click', () => goTo(i));
+        dots.appendChild(d);
+      });
+
+      function updateUI() {
+        const pct = total <= 1 ? 100 : (cur / (total - 1)) * 100;
+        document.getElementById('progressFill').style.width = pct.toFixed(2) + '%';
+        document.getElementById('navCurNum').textContent = cur + 1;
+        btnPrev.disabled = cur === 0;
+        btnNext.disabled = cur === total - 1;
+        dots.querySelectorAll('.dot').forEach((d, i) => {
+          d.setAttribute('aria-selected', i === cur ? 'true' : 'false');
+        });
+      }
+
+      function goTo(target, dir) {
+        if (busy || target === cur || target < 0 || target >= total) return;
+        busy = true;
+        const from = slides[cur];
+        const to = slides[target];
+        const d = dir !== undefined ? dir : (target > cur ? 1 : -1);
+
+        from.classList.add('exit');
+        to.style.transform = `translateX(${d > 0 ? 50 : -50}px)`;
+        to.style.opacity = '0';
+        to.classList.add('active');
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            to.style.transform = '';
+            to.style.opacity = '';
+            setTimeout(() => {
+              from.classList.remove('active', 'exit');
+              cur = target;
+              updateUI();
+              busy = false;
+            }, 420);
+          });
+        });
+      }
+
+      btnPrev.addEventListener('click', () => goTo(cur - 1, -1));
+      btnNext.addEventListener('click', () => goTo(cur + 1, 1));
+
+      document.addEventListener('keydown', e => {
+        const tag = document.activeElement?.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+        switch (e.key) {
+          case 'ArrowRight': case 'ArrowDown': case ' ': case 'PageDown':
+            e.preventDefault(); goTo(cur + 1, 1); break;
+          case 'ArrowLeft': case 'ArrowUp': case 'PageUp':
+            e.preventDefault(); goTo(cur - 1, -1); break;
+          case 'Home': e.preventDefault(); goTo(0, -1); break;
+          case 'End': e.preventDefault(); goTo(total - 1, 1); break;
+          case 'f': case 'F':
+            if (!e.ctrlKey && !e.metaKey) toggleFs(); break;
+          case 'Escape': document.exitFullscreen?.(); break;
+        }
+      });
+
+      /* 스와이프 */
+      let startX = 0, pid = null;
+      const vp = document.getElementById('deck');
+      vp.addEventListener('pointerdown', e => {
+        if (pid !== null) return;
+        pid = e.pointerId; startX = e.clientX;
+        vp.setPointerCapture(e.pointerId);
+      });
+      vp.addEventListener('pointerup', e => {
+        if (e.pointerId !== pid) return;
+        pid = null;
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > 60) dx < 0 ? goTo(cur + 1, 1) : goTo(cur - 1, -1);
+      });
+      vp.addEventListener('pointercancel', () => { pid = null; });
+
+      /* 전체화면 */
+      function toggleFs() {
+        if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+        else document.exitFullscreen?.();
+      }
+      btnFs.addEventListener('click', toggleFs);
+      document.addEventListener('fullscreenchange', () => {
+        btnFs.querySelector('i').className =
+          document.fullscreenElement ? 'fa-solid fa-compress' : 'fa-solid fa-expand';
+      });
+
+      updateUI();
+
+      /* 하단 hover 감지 → nav 표시 */
+      const nav = document.getElementById('nav');
+      document.addEventListener('mousemove', e => {
+        if (e.clientY > window.innerHeight - 80) {
+          nav.classList.add('visible');
+        } else {
+          nav.classList.remove('visible');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
