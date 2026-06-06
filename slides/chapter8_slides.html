@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>제8장 함수 코딩 과제 — 팩토리얼 계산 함수 · 온도 변환기 · 소수 찾기</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --g-dark: #1a3d2b;
+      --g-main: #2d6a4f;
+      --g-mid: #40916c;
+      --g-light: #74c69d;
+      --g-pale: #d8f3dc;
+      --s-900: #0f172a;
+      --s-800: #1e293b;
+      --s-700: #334155;
+      --s-500: #64748b;
+      --s-300: #cbd5e1;
+      --s-200: #e2e8f0;
+      --s-100: #f1f5f9;
+      --s-50: #f8fafc;
+      --white: #ffffff;
+      --accent: #f59e0b;
+      --red: #be123c;
+      --blue: #1d4ed8;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, .06);
+      --shadow-md: 0 4px 20px rgba(0, 0, 0, .10);
+      --shadow-lg: 0 8px 40px rgba(0, 0, 0, .14);
+      --radius: 16px;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--s-50);
+    }
+
+    /* ─── SLIDE ENGINE ─── */
+    .deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 52px 72px 50px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(50px);
+      transition: opacity .4s cubic-bezier(.4, 0, .2, 1), transform .4s cubic-bezier(.4, 0, .2, 1);
+      background: var(--s-50);
+      overflow: hidden;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(0);
+    }
+
+    .slide.exit {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+
+    /* ─── PROGRESS BAR ─── */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: rgba(0, 0, 0, .15);
+      z-index: 1000;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4F46E5, #7C3AED);
+      width: 0%;
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: width;
+    }
+
+    /* ─── NAV ─── */
+    .nav {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--white);
+      border: 1px solid var(--s-200);
+      border-radius: 999px;
+      padding: 8px 18px;
+      box-shadow: var(--shadow-md);
+      z-index: 100;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .nav.visible {
+      opacity: 1;
+    }
+
+    .nav-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: var(--s-100);
+      color: var(--s-700);
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s, color .2s;
+    }
+
+    .nav-btn:hover {
+      background: var(--g-main);
+      color: #fff;
+    }
+
+    .nav-btn:disabled {
+      opacity: .3;
+      cursor: not-allowed;
+    }
+
+    .dot-nav {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--s-300);
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .dot:hover { transform: scale(1.4); background: var(--g-light); }
+    .dot[aria-selected="true"] { transform: scale(1.4); background: var(--g-main); }
+
+    /* ─── TITLE SLIDE ─── */
+    .title-slide {
+      padding: 0 !important;
+      background: #000 !important;
+      overflow: hidden !important;
+    }
+
+    /* ─── SLIDE HEADER ─── */
+    .slide-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 28px;
+      flex-shrink: 0;
+    }
+
+    .header-bar {
+      width: 7px;
+      border-radius: 4px;
+      background: var(--g-main);
+      flex-shrink: 0;
+      align-self: stretch;
+    }
+
+    .header-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--g-mid);
+      margin-bottom: 5px;
+    }
+
+    .header-h1 {
+      font-size: clamp(24px, 3vw, 40px);
+      font-weight: 900;
+      color: var(--s-900);
+      line-height: 1.15;
+    }
+
+    .header-h1 span {
+      color: var(--g-main);
+    }
+
+    /* ─── CARDS ─── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--s-200);
+      border-radius: var(--radius);
+      padding: 22px 26px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--g-main);
+      margin-bottom: 10px;
+    }
+
+    .card p,
+    .card li {
+      font-size: 13px;
+      color: var(--s-700);
+      line-height: 1.75;
+    }
+
+    .card ul {
+      padding-left: 18px;
+    }
+
+    .card-dark {
+      background: linear-gradient(135deg, var(--g-dark), var(--g-main));
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      padding: 22px 26px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-dark .card-title {
+      color: var(--g-light);
+    }
+
+    .card-dark p,
+    .card-dark li {
+      color: rgba(255, 255, 255, .88);
+    }
+
+    /* ─── LAYOUT ─── */
+    .cols {
+      display: flex;
+      gap: 20px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ─── BADGE ─── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--g-pale);
+      color: var(--g-dark);
+    }
+
+    /* ─── PERSON CARD ─── */
+    .person-panel {
+      background: var(--g-dark);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--g-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      color: #fff;
+    }
+
+    .person-name {
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .person-sub {
+      font-size: 12px;
+      color: var(--g-light);
+    }
+
+    .person-desc {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .65);
+      font-style: italic;
+    }
+
+    /* ─── CODE BLOCK ─── */
+    .code-block {
+      background: #0f172a;
+      color: #7ee787;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(11px, 1.1vw, 13px);
+      border-radius: 12px;
+      padding: 16px 20px;
+      line-height: 1.75;
+      overflow: auto;
+    }
+
+    .kw  { color: #ff7b72; }
+    .cm  { color: #8b949e; }
+    .str { color: #a5d6ff; }
+    .num { color: #79c0ff; }
+    .fn  { color: #d2a8ff; }
+
+    /* ─── UTILITY ─── */
+    .flex1 { flex: 1; }
+    .flex-col { display: flex; flex-direction: column; }
+    .gap-4 { gap: 16px; }
+    .gap-3 { gap: 12px; }
+    .mt-2  { margin-top: 8px; }
+    .mt-3  { margin-top: 12px; }
+
+    strong { color: var(--g-dark); }
+    em { color: var(--s-500); font-style: normal; font-weight: 600; }
+  </style>
+</head>
+
+<body>
+
+  <div class="progress-bar" role="progressbar" aria-valuemin="1" aria-valuemax="11" aria-valuenow="1">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <div class="deck" id="deck">
+
+    <!-- ═══════════════════════════════════════ SLIDE 0: TITLE ═══ -->
+    <div class="slide active title-slide" id="s0">
+      <div style="position:relative;width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:80px;">
+
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0f172a 0%,#1a3d2b 45%,#2d6a4f 100%);z-index:0;"></div>
+        <div style="position:absolute;right:-80px;top:-80px;width:400px;height:400px;border-radius:50%;background:rgba(116,198,157,.07);z-index:1;"></div>
+        <div style="position:absolute;right:60px;bottom:60px;width:220px;height:220px;border-radius:50%;background:rgba(45,106,79,.3);z-index:1;"></div>
+        <div style="position:absolute;left:0;top:0;width:4px;height:100%;background:linear-gradient(to bottom,#3b82f6,transparent);z-index:2;"></div>
+        <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px;z-index:1;"></div>
+
+        <div style="position:relative;z-index:10;margin-top:40px;">
+          <div style="width:72px;height:7px;background:#3b82f6;border-radius:4px;margin-bottom:24px;"></div>
+          <div style="display:inline-block;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);border-radius:999px;padding:5px 16px;margin-bottom:18px;">
+            <span style="font-size:11px;font-weight:700;letter-spacing:.18em;color:#93c5fd;text-transform:uppercase;">C언어 EXPRESS · Chapter 08</span>
+          </div>
+          <h1 style="font-size:clamp(34px,5vw,64px);font-weight:900;color:#fff;line-height:1.12;letter-spacing:-.02em;margin:0 0 18px;">
+            함수 코딩 과제 —<br><span style="color:#60a5fa;">팩토리얼 · 온도 변환기 · 소수 찾기</span>
+          </h1>
+          <p style="font-size:clamp(12px,1.3vw,18px);color:#94a3b8;letter-spacing:.18em;text-transform:uppercase;font-weight:300;">
+            Function · Recursion · Conversion · Prime Number
+          </p>
+        </div>
+
+        <div style="position:relative;z-index:10;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px;">
+          <div>
+            <span style="display:block;color:#60a5fa;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:5px;">TEAM NAME</span>
+            <h2 style="font-size:clamp(20px,2.8vw,36px);font-weight:700;color:#fff;font-style:italic;margin:0;">반대표와 아이들</h2>
+          </div>
+          <div style="text-align:right;">
+            <div style="margin-bottom:16px;">
+              <span style="display:block;color:#9ca3af;font-size:10px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:5px;">Team Members</span>
+              <p style="font-size:clamp(12px,1.2vw,17px);font-weight:500;color:#fff;margin:0;">
+                김도윤 <span style="color:#4b5563;margin:0 4px;">|</span>
+                김준영 <span style="color:#4b5563;margin:0 4px;">|</span>
+                장원준 <span style="color:#4b5563;margin:0 4px;">|</span>
+                이윤호
+              </p>
+            </div>
+            <p style="font-size:clamp(11px,1vw,15px);color:#6b7280;font-family:'JetBrains Mono',monospace;margin:0;">2026 · 06 · 06</p>
+          </div>
+        </div>
+
+        <div style="position:absolute;right:80px;top:50%;transform:translateY(-50%);font-size:clamp(80px,13vw,170px);font-weight:900;color:rgba(255,255,255,.04);font-family:'JetBrains Mono',monospace;pointer-events:none;user-select:none;z-index:2;">C</div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ SLIDE 1: 목차 ═══ -->
+    <div class="slide" id="s1">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div>
+          <div class="header-label">Contents</div>
+          <h1 class="header-h1">목 차</h1>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;flex:1;justify-content:center;">
+
+        <div style="display:flex;align-items:center;gap:20px;background:linear-gradient(135deg,var(--g-dark),var(--g-main));border-radius:14px;padding:12px 26px;">
+          <div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:var(--g-light);flex-shrink:0;">1</div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+            <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;">
+              <span style="font-size:15px;font-weight:900;color:#fff;">팀 소개</span>
+              <span style="font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--g-light);text-transform:uppercase;">Team Introduction</span>
+            </div>
+            <span style="font-size:11px;color:rgba(255,255,255,.55);">반대표와 아이들 — 팀장 김도윤</span>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+          <div style="display:flex;align-items:center;gap:14px;background:var(--white);border:1px solid var(--s-200);border-radius:12px;padding:10px 18px;box-shadow:var(--shadow-sm);">
+            <div style="width:30px;height:30px;border-radius:50%;background:var(--g-pale);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--g-main);flex-shrink:0;">2</div>
+            <div><span style="font-size:14px;font-weight:900;color:var(--s-900);">팩토리얼 계산 함수</span><br><span style="font-size:10px;color:var(--s-500);">Factorial Function · 재귀/반복</span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;background:var(--white);border:1px solid var(--s-200);border-radius:12px;padding:10px 18px;box-shadow:var(--shadow-sm);">
+            <div style="width:30px;height:30px;border-radius:50%;background:var(--g-pale);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--g-main);flex-shrink:0;">3</div>
+            <div><span style="font-size:14px;font-weight:900;color:var(--s-900);">온도 변환기</span><br><span style="font-size:10px;color:var(--s-500);">Temperature Converter · 함수 설계</span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;background:var(--white);border:1px solid var(--s-200);border-radius:12px;padding:10px 18px;box-shadow:var(--shadow-sm);">
+            <div style="width:30px;height:30px;border-radius:50%;background:var(--g-pale);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--g-main);flex-shrink:0;">4</div>
+            <div><span style="font-size:14px;font-weight:900;color:var(--s-900);">소수 찾기</span><br><span style="font-size:10px;color:var(--s-500);">Prime Number · 판별 함수</span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;background:var(--white);border:1px solid var(--s-200);border-radius:12px;padding:10px 18px;box-shadow:var(--shadow-sm);">
+            <div style="width:30px;height:30px;border-radius:50%;background:var(--g-pale);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--g-main);flex-shrink:0;">5</div>
+            <div><span style="font-size:14px;font-weight:900;color:var(--s-900);">팀원별 소감</span><br><span style="font-size:10px;color:var(--s-500);">Team Reflections</span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;background:var(--white);border:1px solid var(--s-200);border-radius:12px;padding:10px 18px;box-shadow:var(--shadow-sm);">
+            <div style="width:30px;height:30px;border-radius:50%;background:var(--g-pale);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--g-main);flex-shrink:0;">6</div>
+            <div><span style="font-size:14px;font-weight:900;color:var(--s-900);">마무리 및 질의응답</span><br><span style="font-size:10px;color:var(--s-500);">Closing &amp; Q&amp;A</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ SLIDE 2: 팀원 소개 ═══ -->
+    <div class="slide" id="s2">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div>
+          <div class="header-label">Team Introduction</div>
+          <h1 class="header-h1">팀 원 <span>소개</span></h1>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;flex:1;align-content:center;">
+
+        <div class="person-panel" style="background:linear-gradient(160deg,#0f2027,#203a43,#1a3d2b);border:2px solid var(--g-mid);">
+          <div class="avatar" style="background:linear-gradient(135deg,var(--g-mid),var(--g-main));font-family:'JetBrains Mono',monospace;">김</div>
+          <div class="person-name">김도윤</div>
+          <div class="person-sub">
+            <i class="fa-solid fa-crown" style="margin-right:4px;color:#fbbf24;"></i>팀 장
+          </div>
+          <div class="person-desc">PPT 제작</div>
+        </div>
+
+        <div class="person-panel">
+          <div class="avatar" style="font-family:'JetBrains Mono',monospace;">김</div>
+          <div class="person-name">김준영</div>
+          <div class="person-sub">
+            <i class="fa-solid fa-magnifying-glass" style="margin-right:4px;"></i>팀 원
+          </div>
+          <div class="person-desc">자료 조사</div>
+        </div>
+
+        <div class="person-panel">
+          <div class="avatar" style="font-family:'JetBrains Mono',monospace;">장</div>
+          <div class="person-name">장원준</div>
+          <div class="person-sub">
+            <i class="fa-solid fa-bullhorn" style="margin-right:4px;color:#f87171;"></i>팀 원
+          </div>
+          <div class="person-desc">발 표</div>
+        </div>
+
+        <div class="person-panel">
+          <div class="avatar" style="font-family:'JetBrains Mono',monospace;">이</div>
+          <div class="person-name">이윤호</div>
+          <div class="person-sub">
+            <i class="fa-solid fa-magnifying-glass" style="margin-right:4px;"></i>팀 원
+          </div>
+          <div class="person-desc">자료 조사</div>
+        </div>
+
+      </div>
+
+      <div style="margin-top:18px;background:var(--g-pale);border-radius:12px;padding:13px 20px;display:flex;align-items:center;gap:12px;">
+        <i class="fa-solid fa-people-group" style="color:var(--g-main);font-size:18px;"></i>
+        <p style="font-size:13px;color:var(--g-dark);">팀명 <strong>반대표와 아이들</strong> — 인덕대학교 C언어 팀 프로젝트 · 2026년도 1학기</p>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ SLIDE 3: 팩토리얼 계산 함수 코드 리뷰 ═══ -->
+    <div class="slide" id="s3">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div>
+          <div class="header-label">Code Review · 01</div>
+          <h1 class="header-h1">팩토리얼 계산 함수 <span>코드 리뷰</span></h1>
+        </div>
+      </div>
+
+      <div class="cols" style="align-items:stretch;">
+        <div class="col" style="flex:1.2;">
+          <div style="flex:1;border-radius:12px;overflow:hidden;box-shadow:var(--shadow-md);background:#0f172a;display:flex;align-items:center;justify-content:center;">
+            <img src="../image/팩토리얼 계산 함수 코드.png" alt="팩토리얼 계산 함수 코드"
+              style="width:100%;height:100%;object-fit:contain;display:block;">
+          </div>
+        </div>
+
+        <div class="col" style="flex:0.9;">
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-circle-question"></i> 문제 목표</div>
+            <p>양의 정수 <strong>n</strong>을 입력받아 <strong>별도의 함수</strong>로 n! (n 팩토리얼)을 계산하고 결과를 main에서 출력하는 프로그램을 작성한다.</p>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-code"></i> 함수 구조</div>
+            <div style="background:var(--g-pale);border-radius:8px;padding:10px 14px;">
+              <p style="font-size:12px;color:var(--g-dark);font-weight:700;margin-bottom:4px;">팩토리얼 함수 선언</p>
+              <code style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--g-dark);">int factorial(int n)</code>
+            </div>
+          </div>
+
+          <div class="card-dark">
+            <div class="card-title"><i class="fa-solid fa-repeat"></i> 핵심 로직</div>
+            <ul style="padding-left:16px;display:flex;flex-direction:column;gap:5px;">
+              <li style="color:rgba(255,255,255,.88);font-size:13px;">함수 내부에서 <strong style="color:var(--g-light);">for 또는 재귀</strong>로 n! 계산</li>
+              <li style="color:rgba(255,255,255,.88);font-size:13px;">초기값 <strong style="color:var(--g-light);">result = 1</strong> 설정 필수</li>
+              <li style="color:rgba(255,255,255,.88);font-size:13px;">main에서 <strong style="color:var(--g-light);">함수 호출</strong> 후 결과 출력</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-file-code"></i> 사용 헤더</div>
+            <div style="background:var(--s-50);border-radius:8px;padding:10px 14px;">
+              <code style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#d2a8ff;font-weight:700;">#include &lt;stdio.h&gt;</code>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ SLIDE 4: 팩토리얼 계산 함수 실행 결과 ═══ -->
+    <div class="slide" id="s4">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div>
+          <div class="header-label">Execution Result · 01</div>
+          <h1 class="header-h1">팩토리얼 계산 함수 <span>실행 결과</span></h1>
+        </div>
+      </div>
+
+      <div class="cols" style="align-items:stretch;">
+        <div class="col" style="flex:1.3;">
+          <div style="flex:1;border-radius:12px;overflow:hidden;box-shadow:var(--shadow-md);background:#0f172a;display:flex;flex-direction:column;">
+            <div style="padding:10px 16px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:8px;">
+              <div style="width:10px;height:10px;border-radius:50%;background:#ff5f57;"></div>
+              <div style="width:10px;height:10px;border-radius:50%;background:#ffbd2e;"></div>
+              <div style="width:10px;height:10px;border-radius:50%;background:#28ca41;"></div>
+              <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#74c69d;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-left:8px;">Terminal — 실행 결과</span>
+            </div>
+            <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:8px;">
+              <img src="../image/팩토리얼 계산 함수 실행결과.png" alt="팩토리얼 계산 함수 실행결과" style="max-width:100%;max-height:100%;object-fit:contain;display:block;">
+            </div>
+          </div>
+        </div>
+
+        <div class="col" style="flex:0.7;gap:14px;">
+          <div class="card-dark">
+            <div class="card-title"><i class="fa-solid fa-check-circle"></i> 결과 분석</div>
+            <p style="font-size:13px;color:rgba(255,255,255,.88);line-height:1.85;">
+              n을 입력하면 <strong style="color:var(--g-light);">factorial 함수</strong>가 호출되어 n!을 계산합니다. n=5이면 1×2×3×4×5 = <strong style="color:var(--g-light);">120</strong>이 출력됩니다.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-lightbulb"></i> 핵심 포인트</div>
+            <ul style="padding-left:16px;display:flex;flex-direction:column;gap:6px;">
+              <li>함수로 분리하면 <strong>재사용성</strong>이 높아짐</li>
+              <li>초기값 <strong>result = 1</strong> (0이면 항상 0)</li>
+              <li>큰 수는 <strong>long long</strong>형 선언 권장</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ SLIDE 5: 온도 변환기 코드 리뷰 ═══ -->
+    <div class="slide" id="s5">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div>
+          <div class="header-label">Code Review · 02</div>
+          <h1 class="header-h1">온도 변환기 <span>코드 리뷰</span></h1>
+        </div>
+      </div>
+
+      <div class="cols" style="align-items:stretch;">
+        <div class="col" style="flex:1.2;">
+          <div style="flex:1;border-radius:12px;overflow:hidden;box-shadow:var(--shadow-md);background:#0f172a;display:flex;align-items:center;justify-content:center;">
+            <img src="../image/온도 변환기 코드.png" alt="온도 변환기 코드"
+              style="width:100%;height:100%;object-fit:contain;display:block;">
+          </div>
+        </div>
+
+        <div class="col" style="flex:0.9;">
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-circle-question"></i> 문제 목표</div>
+            <p>섭씨(℃) 온도를 입력받아 <strong>변환 함수</strong>를 통해 화씨(℉)와 켈빈(K)으로 변환하여 출력하는 프로그램을 작성한다.</p>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-temperature-half"></i> 변환 공식</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div style="background:var(--g-pale);border-radius:8px;padding:10px 14px;">
+                <p style="font-size:12px;color:var(--g-dark);font-weight:700;margin-bottom:4px;">섭씨 → 화씨</p>
+                <code style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--g-dark);">F = C × 9/5 + 32</code>
+              </div>
+              <div style="background:var(--g-pale);border-radius:8px;padding:10px 14px;">
+                <p style="font-size:12px;color:var(--g-dark);font-weight:700;margin-bottom:4px;">섭씨 → 켈빈</p>
+                <code style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--g-dark);">K = C + 273.15</code>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-dark">
+            <div class="card-title"><i class="fa-solid fa-code"></i> 핵심 로직</div>
+            <ul style="padding-left:16px;display:flex;flex-direction:column;gap:5px;">
+              <li style="color:rgba(255,255,255,.88);font-size:13px;"><strong style="color:var(--g-light);">double</strong>형으로 실수 계산 처리</li>
+              <li style="color:rgba(255,255,255,.88);font-size:13px;">변환 함수에 섭씨값을 <strong style="color:var(--g-light);">인자</strong>로 전달</li>
+              <li style="color:rgba(255,255,255,.88);font-size:13px;">함수가 변환 결과를 <strong style="color:var(--g-light);">return</strong>으로 반환</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ SLIDE 6: 온도 변환기 실행 결과 ═══ -->
+    <div class="slide" id="s6">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div>
+          <div class="header-label">Execution Result · 02</div>
+          <h1 class="header-h1">온도 변환기 <span>실행 결과</span></h1>
+        </div>
+      </div>
+
+      <div class="cols" style="align-items:stretch;">
+        <div class="col" style="flex:1.3;">
+          <div style="flex:1;border-radius:12px;overflow:hidden;box-shadow:var(--shadow-md);background:#0f172a;display:flex;flex-direction:column;">
+            <div style="padding:10px 16px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:8px;">
+              <div style="width:10px;height:10px;border-radius:50%;background:#ff5f57;"></div>
+              <div style="width:10px;height:10px;border-radius:50%;background:#ffbd2e;"></div>
+              <div style="width:10px;height:10px;border-radius:50%;background:#28ca41;"></div>
+              <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#74c69d;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-left:8px;">Terminal — 실행 결과</span>
+            </div>
+            <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:8px;">
+              <img src="../image/온도 변환기 실행결과.png" alt="온도 변환기 실행결과" style="max-width:100%;max-height:100%;object-fit:contain;display:block;">
+            </div>
+          </div>
+        </div>
+
+        <div class="col" style="flex:0.7;gap:14px;">
+          <div class="card-dark">
+            <div class="card-title"><i class="fa-solid fa-check-circle"></i> 결과 분석</div>
+            <p style="font-size:13px;color:rgba(255,255,255,.88);line-height:1.85;">
+              섭씨 온도를 입력하면 <strong style="color:var(--g-light);">변환 함수</strong>가 화씨와 켈빈 값을 각각 계산하여 반환합니다. 입력한 값에 따라 소수점 두 자리로 출력됩니다.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-lightbulb"></i> 핵심 포인트</div>
+            <ul style="padding-left:16px;display:flex;flex-direction:column;gap:6px;">
+              <li><strong>9.0/5.0</strong>으로 실수 나눗셈 처리 (정수 나눗셈 주의)</li>
+              <li>함수의 <strong>반환값</strong>을 변수에 저장 후 출력</li>
+              <li><strong>double</strong>형으로 정밀도 확보</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ SLIDE 7: 소수 찾기 코드 리뷰 ═══ -->
+    <div class="slide" id="s7">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div>
+          <div class="header-label">Code Review · 03</div>
+          <h1 class="header-h1">소수 찾기 <span>코드 리뷰</span></h1>
+        </div>
+      </div>
+
+      <div class="cols" style="align-items:stretch;">
+        <div class="col" style="flex:1.2;">
+          <div style="flex:1;border-radius:12px;overflow:hidden;box-shadow:var(--shadow-md);background:#0f172a;display:flex;align-items:center;justify-content:center;">
+            <img src="../image/소수 찾기 코드.png" alt="소수 찾기 코드"
+              style="width:100%;height:100%;object-fit:contain;display:block;">
+          </div>
+        </div>
+
+        <div class="col" style="flex:0.9;">
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-circle-question"></i> 문제 목표</div>
+            <p>양의 정수 <strong>n</strong>을 입력받아 2부터 n까지의 정수 중 <strong>소수(Prime Number)</strong>를 모두 찾아 출력하는 프로그램을 작성한다.</p>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-magnifying-glass"></i> 소수 판별 원리</div>
+            <div style="background:var(--g-pale);border-radius:8px;padding:10px 14px;">
+              <p style="font-size:12px;color:var(--g-dark);font-weight:700;margin-bottom:4px;">2부터 √n까지 나눠 봄</p>
+              <code style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--g-dark);">for(j=2; j&lt;i; j++) if(i%j==0) break;</code>
+            </div>
+          </div>
+
+          <div class="card-dark">
+            <div class="card-title"><i class="fa-solid fa-repeat"></i> 핵심 로직</div>
+            <ul style="padding-left:16px;display:flex;flex-direction:column;gap:5px;">
+              <li style="color:rgba(255,255,255,.88);font-size:13px;">외부 루프로 <strong style="color:var(--g-light);">2~n</strong> 각 수를 순회</li>
+              <li style="color:rgba(255,255,255,.88);font-size:13px;">내부 루프에서 <strong style="color:var(--g-light);">약수 존재 여부</strong> 확인</li>
+              <li style="color:rgba(255,255,255,.88);font-size:13px;">약수가 없으면 <strong style="color:var(--g-light);">소수로 출력</strong></li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-file-code"></i> 사용 헤더</div>
+            <div style="background:var(--s-50);border-radius:8px;padding:10px 14px;">
+              <code style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#d2a8ff;font-weight:700;">#include &lt;stdio.h&gt;</code>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ SLIDE 8: 소수 찾기 실행 결과 ═══ -->
+    <div class="slide" id="s8">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div>
+          <div class="header-label">Execution Result · 03</div>
+          <h1 class="header-h1">소수 찾기 <span>실행 결과</span></h1>
+        </div>
+      </div>
+
+      <div class="cols" style="align-items:stretch;">
+        <div class="col" style="flex:1.3;">
+          <div style="flex:1;border-radius:12px;overflow:hidden;box-shadow:var(--shadow-md);background:#0f172a;display:flex;flex-direction:column;">
+            <div style="padding:10px 16px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:8px;">
+              <div style="width:10px;height:10px;border-radius:50%;background:#ff5f57;"></div>
+              <div style="width:10px;height:10px;border-radius:50%;background:#ffbd2e;"></div>
+              <div style="width:10px;height:10px;border-radius:50%;background:#28ca41;"></div>
+              <span style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#74c69d;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-left:8px;">Terminal — 실행 결과</span>
+            </div>
+            <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:8px;">
+              <img src="../image/소수 찾기 실행결과.png" alt="소수 찾기 실행결과" style="max-width:100%;max-height:100%;object-fit:contain;display:block;">
+            </div>
+          </div>
+        </div>
+
+        <div class="col" style="flex:0.7;gap:14px;">
+          <div class="card-dark">
+            <div class="card-title"><i class="fa-solid fa-check-circle"></i> 결과 분석</div>
+            <p style="font-size:13px;color:rgba(255,255,255,.88);line-height:1.85;">
+              n을 입력하면 <strong style="color:var(--g-light);">이중 루프</strong>가 각 수의 약수를 확인하여 소수만 출력합니다. n=20이면 2, 3, 5, 7, 11, 13, 17, 19가 출력됩니다.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-lightbulb"></i> 핵심 포인트</div>
+            <ul style="padding-left:16px;display:flex;flex-direction:column;gap:6px;">
+              <li>약수가 하나도 없으면 <strong>소수</strong></li>
+              <li>내부 루프 상한을 <strong>√n</strong>으로 줄이면 효율 향상</li>
+              <li><strong>break</strong>로 불필요한 반복 즉시 종료</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ SLIDE 9: 팀원별 소감 ═══ -->
+    <div class="slide" id="s9">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div>
+          <div class="header-label">Team Reflections</div>
+          <h1 class="header-h1">팀 원 별 <span>소감</span></h1>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;flex:1;align-content:center;">
+
+        <div style="background:linear-gradient(160deg,#0f2027,#203a43,#1a3d2b);border:2px solid var(--g-mid);border-radius:var(--radius);padding:22px 24px;display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--g-mid),var(--g-main));display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;font-family:'JetBrains Mono',monospace;flex-shrink:0;">김</div>
+            <div>
+              <div style="font-size:16px;font-weight:900;color:#fff;">김도윤</div>
+              <div style="font-size:11px;color:var(--g-light);"><i class="fa-solid fa-crown" style="margin-right:3px;color:#fbbf24;"></i>팀 장 · PPT 제작</div>
+            </div>
+          </div>
+          <p style="font-size:13px;color:rgba(255,255,255,.8);line-height:1.85;border-top:1px solid rgba(255,255,255,.1);padding-top:12px;">
+            함수를 직접 정의하고 호출하는 과정을 통해 코드의 구조화와 재사용성의 중요성을 실감했습니다. 특히 소수 찾기에서 판별 로직을 함수로 분리하니 main 코드가 훨씬 깔끔해졌습니다.
+          </p>
+        </div>
+
+        <div style="background:var(--s-800);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:22px 24px;display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--g-mid);display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;font-family:'JetBrains Mono',monospace;flex-shrink:0;">김</div>
+            <div>
+              <div style="font-size:16px;font-weight:900;color:#fff;">김준영</div>
+              <div style="font-size:11px;color:var(--g-light);"><i class="fa-solid fa-magnifying-glass" style="margin-right:3px;"></i>팀 원 · 자료 조사</div>
+            </div>
+          </div>
+          <p style="font-size:13px;color:rgba(255,255,255,.8);line-height:1.85;border-top:1px solid rgba(255,255,255,.1);padding-top:12px;">
+            온도 변환기를 만들면서 실수 자료형(double)과 정수 나눗셈의 차이를 명확히 이해하게 되었습니다. 같은 공식이라도 자료형에 따라 결과가 달라진다는 점이 인상적이었습니다.
+          </p>
+        </div>
+
+        <div style="background:var(--s-800);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:22px 24px;display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--g-mid);display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;font-family:'JetBrains Mono',monospace;flex-shrink:0;">장</div>
+            <div>
+              <div style="font-size:16px;font-weight:900;color:#fff;">장원준</div>
+              <div style="font-size:11px;color:var(--g-light);"><i class="fa-solid fa-bullhorn" style="margin-right:3px;color:#f87171;"></i>팀 원 · 발 표</div>
+            </div>
+          </div>
+          <p style="font-size:13px;color:rgba(255,255,255,.8);line-height:1.85;border-top:1px solid rgba(255,255,255,.1);padding-top:12px;">
+            팩토리얼 계산 함수를 구현하면서 함수 호출과 반환값의 개념을 확실히 익혔습니다. 반복문으로 짠 코드를 함수로 감싸는 것만으로도 코드 가독성이 크게 올라가는 것을 느꼈습니다.
+          </p>
+        </div>
+
+        <div style="background:var(--s-800);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:22px 24px;display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--g-mid);display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;font-family:'JetBrains Mono',monospace;flex-shrink:0;">이</div>
+            <div>
+              <div style="font-size:16px;font-weight:900;color:#fff;">이윤호</div>
+              <div style="font-size:11px;color:var(--g-light);"><i class="fa-solid fa-magnifying-glass" style="margin-right:3px;"></i>팀 원 · 자료 조사</div>
+            </div>
+          </div>
+          <p style="font-size:13px;color:rgba(255,255,255,.8);line-height:1.85;border-top:1px solid rgba(255,255,255,.1);padding-top:12px;">
+            소수 찾기 알고리즘을 공부하면서 이중 반복문과 break 문의 활용법을 깊게 이해했습니다. 효율적인 소수 판별을 위해 √n까지만 검사하는 최적화 개념도 새롭게 배웠습니다.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ SLIDE 10: 마무리 ═══ -->
+    <div class="slide" id="s10" style="padding:0;overflow:hidden;">
+      <div style="position:relative;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:60px;overflow:hidden;">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0f172a 0%,#1a3d2b 50%,#2d6a4f 100%);z-index:0;"></div>
+        <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px;z-index:1;"></div>
+        <div style="position:absolute;left:-80px;bottom:-80px;width:400px;height:400px;border-radius:50%;background:rgba(116,198,157,.07);z-index:1;"></div>
+        <div style="position:absolute;right:60px;top:60px;width:200px;height:200px;border-radius:50%;background:rgba(45,106,79,.25);z-index:1;"></div>
+
+        <div style="position:relative;z-index:10;text-align:center;max-width:860px;">
+          <div style="display:inline-block;background:rgba(116,198,157,.15);border:1px solid rgba(116,198,157,.3);border-radius:999px;padding:5px 18px;margin-bottom:22px;">
+            <span style="font-size:11px;font-weight:700;letter-spacing:.18em;color:var(--g-light);text-transform:uppercase;">Chapter 08 완료</span>
+          </div>
+          <h1 style="font-size:clamp(30px,4.5vw,56px);font-weight:900;color:#fff;line-height:1.15;margin-bottom:18px;">
+            경청해 주셔서<br><span style="color:#60a5fa;">감사합니다</span>
+          </h1>
+          <p style="font-size:clamp(12px,1.2vw,16px);color:#94a3b8;margin-bottom:32px;line-height:1.8;">
+            함수 코딩 과제 · 팩토리얼 계산 함수 · 온도 변환기 · 소수 찾기
+          </p>
+
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:left;margin-bottom:28px;">
+            <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 16px;">
+              <div style="font-size:18px;margin-bottom:5px;">🔢</div>
+              <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px;">팩토리얼 계산 함수</div>
+              <div style="font-size:10px;color:rgba(255,255,255,.5);">함수 정의 · 반환값 · 재사용</div>
+            </div>
+            <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 16px;">
+              <div style="font-size:18px;margin-bottom:5px;">🌡️</div>
+              <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px;">온도 변환기</div>
+              <div style="font-size:10px;color:rgba(255,255,255,.5);">double · 변환 공식 · 함수 인자</div>
+            </div>
+            <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 16px;">
+              <div style="font-size:18px;margin-bottom:5px;">🔍</div>
+              <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px;">소수 찾기</div>
+              <div style="font-size:10px;color:rgba(255,255,255,.5);">이중 루프 · 판별 함수 · break</div>
+            </div>
+          </div>
+
+          <div style="border-top:1px solid rgba(255,255,255,.12);padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+            <div style="text-align:left;">
+              <div style="font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px;">Team</div>
+              <div style="font-size:16px;font-weight:700;color:#fff;font-style:italic;">반대표와 아이들</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px;">Members</div>
+              <div style="font-size:13px;color:rgba(255,255,255,.7);">김도윤 · 김준영 · 장원준 · 이윤호</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /deck -->
+
+  <!-- ─── NAV ─── -->
+  <nav class="nav" id="nav">
+    <button class="nav-btn" id="btn-prev" aria-label="이전" disabled>
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <nav class="dot-nav" id="dotNav" role="tablist" aria-label="슬라이드 목록"></nav>
+    <span style="font-size:12px;font-weight:700;color:var(--s-500);font-variant-numeric:tabular-nums;letter-spacing:.02em;min-width:44px;text-align:center;"><span id="navCurNum">1</span> / <span id="navTotNum">11</span></span>
+    <button class="nav-btn" id="btn-next" aria-label="다음">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+    <button class="nav-btn" id="btn-fs" aria-label="전체화면" title="전체화면 (F)">
+      <i class="fa-solid fa-expand"></i>
+    </button>
+  </nav>
+
+  <script>
+    (() => {
+      const slides = [...document.querySelectorAll('.slide')];
+      const total = slides.length;
+      const dots = document.getElementById('dotNav');
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      const btnFs = document.getElementById('btn-fs');
+      let cur = 0, busy = false;
+
+      slides.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.className = 'dot';
+        d.setAttribute('role', 'tab');
+        d.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+        d.setAttribute('aria-label', `슬라이드 ${i + 1}`);
+        d.addEventListener('click', () => goTo(i));
+        dots.appendChild(d);
+      });
+
+      function updateUI() {
+        const pct = total <= 1 ? 100 : (cur / (total - 1)) * 100;
+        document.getElementById('progressFill').style.width = pct.toFixed(2) + '%';
+        document.getElementById('navCurNum').textContent = cur + 1;
+        btnPrev.disabled = cur === 0;
+        btnNext.disabled = cur === total - 1;
+        dots.querySelectorAll('.dot').forEach((d, i) => {
+          d.setAttribute('aria-selected', i === cur ? 'true' : 'false');
+        });
+      }
+
+      function goTo(target, dir) {
+        if (busy || target === cur || target < 0 || target >= total) return;
+        busy = true;
+        const from = slides[cur];
+        const to = slides[target];
+        const d = dir !== undefined ? dir : (target > cur ? 1 : -1);
+
+        from.classList.add('exit');
+        to.style.transform = `translateX(${d > 0 ? 50 : -50}px)`;
+        to.style.opacity = '0';
+        to.classList.add('active');
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            to.style.transform = '';
+            to.style.opacity = '';
+            setTimeout(() => {
+              from.classList.remove('active', 'exit');
+              cur = target;
+              updateUI();
+              busy = false;
+            }, 420);
+          });
+        });
+      }
+
+      btnPrev.addEventListener('click', () => goTo(cur - 1, -1));
+      btnNext.addEventListener('click', () => goTo(cur + 1, 1));
+
+      document.addEventListener('keydown', e => {
+        const tag = document.activeElement?.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+        switch (e.key) {
+          case 'ArrowRight': case 'ArrowDown': case ' ': case 'PageDown':
+            e.preventDefault(); goTo(cur + 1, 1); break;
+          case 'ArrowLeft': case 'ArrowUp': case 'PageUp':
+            e.preventDefault(); goTo(cur - 1, -1); break;
+          case 'Home': e.preventDefault(); goTo(0, -1); break;
+          case 'End': e.preventDefault(); goTo(total - 1, 1); break;
+          case 'f': case 'F':
+            if (!e.ctrlKey && !e.metaKey) toggleFs(); break;
+          case 'Escape': document.exitFullscreen?.(); break;
+        }
+      });
+
+      let startX = 0, pid = null;
+      const vp = document.getElementById('deck');
+      vp.addEventListener('pointerdown', e => {
+        if (pid !== null) return;
+        pid = e.pointerId; startX = e.clientX;
+        vp.setPointerCapture(e.pointerId);
+      });
+      vp.addEventListener('pointerup', e => {
+        if (e.pointerId !== pid) return;
+        pid = null;
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > 60) dx < 0 ? goTo(cur + 1, 1) : goTo(cur - 1, -1);
+      });
+      vp.addEventListener('pointercancel', () => { pid = null; });
+
+      function toggleFs() {
+        if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+        else document.exitFullscreen?.();
+      }
+      btnFs.addEventListener('click', toggleFs);
+      document.addEventListener('fullscreenchange', () => {
+        btnFs.querySelector('i').className =
+          document.fullscreenElement ? 'fa-solid fa-compress' : 'fa-solid fa-expand';
+      });
+
+      updateUI();
+
+      const nav = document.getElementById('nav');
+      document.addEventListener('mousemove', e => {
+        if (e.clientY > window.innerHeight - 80) {
+          nav.classList.add('visible');
+        } else {
+          nav.classList.remove('visible');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
